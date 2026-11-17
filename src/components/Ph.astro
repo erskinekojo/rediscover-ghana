@@ -1,0 +1,9 @@
+---
+// Clearly labelled placeholder for photos and video until real stills are supplied.
+interface Props { label?: string; aria: string; color?: string; class?: string; style?: string; striped?: boolean }
+const { label, aria, color = '#2b3d31', class: cls = '', style = '', striped = false } = Astro.props;
+---
+<div role="img" aria-label={`Placeholder: ${aria}`} class:list={['ph', striped && 'striped', cls]} style={`background-color:${color};${style}`}>
+  {label && <span class="ph-label">{label}</span>}
+  <slot />
+</div>

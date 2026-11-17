@@ -1,0 +1,77 @@
+---
+import Base from '../layouts/Base.astro';
+import { getBundles, STATUS_LABEL } from '../lib/content';
+import { u } from '../lib/url';
+
+// Stylised map: project approximate lat/lng onto a 360 x 300 canvas.
+const W = 360, H = 300;
+const LNG0 = -0.24, LNG1 = 0, LAT0 = 5.51, LAT1 = 5.69;
+const proj = ([lat, lng]: [number, number]) => ({ x: ((lng - LNG0) / (LNG1 - LNG0)) * W, y: ((LAT1 - lat) / (LAT1 - LAT0)) * H });
+const colors = { filmed: '#1E5B3A', soon: '#E0A526', research: '#8E8A7E' };
+
+const bundles = getBundles();
+const towns = bundles.map((b) => ({ ...b.town, ...proj(b.town.coords), filmed: b.town.status === 'filmed', counts: `${b.people.length} people` }));
+const filmedCount = towns.filter((t) => t.filmed).length;
+
+// Coastline sits just below the pins, left to right; sea fills below it.
+const coast = [...towns].sort((a, b) => a.x - b.x).map((t) => [t.x, t.y + 22]);
+const pts = [[0, coast[0][1] + 14], ...coast, [W, coast[coast.length - 1][1] - 4]];
+let d = `M${pts[0][0]},${pts[0][1]}`;
+for (let i = 1; i < pts.length; i++) {
+  const [px, py] = pts[i - 1], [x, y] = pts[i];
+  d += ` C${px + (x - px) / 2},${py} ${px + (x - px) / 2},${y} ${x},${y}`;
+}
+const sea = `${d} L${W},${H} L0,${H} Z`;
+---
+<Base title="Map" nav="map">
+  <section class="section" style="padding-top:24px">
+    <p class="label">The Ga coast</p>
+    <h1 class="title">{filmedCount} of {towns.length} filmed</h1>
+  </section>
+
+  <div class="map-wrap" id="map">
+    <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
+      <rect width={W} height={H} fill="#EAE6DA" />
+      <path d={sea} fill="#CBDDE3" />
+      <path d={d} fill="none" stroke="#9DBBC6" stroke-width="2" />
+      <text x="190" y="285" font-size="9" letter-spacing="3" fill="#6C8A96" text-anchor="middle" font-family="Inter, sans-serif">GULF OF GUINEA</text>
+      <text x="40" y="60" font-size="9" letter-spacing="3" fill="#A9A595" font-family="Inter, sans-serif">GREATER ACCRA</text>
+    </svg>
+    {towns.map((t) => (
+      <button type="button" class:list={['pin', t.x > 290 && 'left']} data-town={t.slug} aria-pressed="false" aria-label={`${t.name}, ${STATUS_LABEL[t.status]}`}
+        style={`left:${(t.x / W) * 100}%;top:${(t.y / H) * 100}%`}>
+        <span class="dot-pin" style={`background:${colors[t.status]}`}></span>
+        <span class="pin-label">{t.name.replace(' (Labadi)', '')}</span>
+      </button>
+    ))}
+  </div>
+
+  <div class="legend" aria-label="Legend">
+    <span><i style="background:#1E5B3A"></i>Filmed</span>
+    <span><i style="background:#E0A526"></i>Filming soon</span>
+    <span><i style="background:#8E8A7E"></i>Researching</span>
+  </div>
+
+  {towns.map((t) => (
+    <section class="sheet" data-sheet={t.slug} hidden aria-live="polite">
+      <div class="sheet-head"><h2>{t.name}</h2><span class:list={['badge', t.status]}>{STATUS_LABEL[t.status]}</span></div>
+      <p class="body-copy">{t.blurb}</p>
+      {t.filmed
+        ? <a class="btn btn-primary" href={u(`/towns/${t.slug}/`)}>Open town page</a>
+        : <a class="btn btn-outline" href={u(`/contribute/?topic=town&town=${t.slug}`)}>Help us tell this town’s story</a>}
+    </section>
+  ))}
+  <div style="height:28px"></div>
+
+  <script>
+    const pins = [...document.querySelectorAll<HTMLButtonElement>('.pin')];
+    const sheets = [...document.querySelectorAll<HTMLElement>('.sheet')];
+    const pick = (slug: string) => {
+      pins.forEach((p) => p.setAttribute('aria-pressed', String(p.dataset.town === slug)));
+      sheets.forEach((s) => (s.hidden = s.dataset.sheet !== slug));
+    };
+    pins.forEach((p) => p.addEventListener('click', () => pick(p.dataset.town!)));
+    const fromUrl = new URLSearchParams(location.search).get('town');
+    pick(pins.some((p) => p.dataset.town === fromUrl) ? fromUrl! : 'teshie');
+  </script>
+</Base>

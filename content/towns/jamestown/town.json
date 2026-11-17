@@ -1,0 +1,31 @@
+{
+  "slug": "jamestown",
+  "name": "Jamestown",
+  "gaName": "[Ga spelling]",
+  "region": "Greater Accra",
+  "district": "[District]",
+  "status": "research",
+  "coords": [
+    5.5337,
+    -0.2113
+  ],
+  "blurb": "Old Accra by the harbour: lighthouse, boxing gyms and the fishing port. Researching sources and contacts.",
+  "heroImage": "Photo · Jamestown",
+  "filmUrl": "",
+  "filmDuration": "",
+  "filmedDate": "",
+  "lastVerified": "[date]",
+  "credits": "Keen Eye Media Alliance",
+  "chapters": {
+    "origin": {
+      "teaser": "",
+      "toldBy": ""
+    },
+    "texture": [],
+    "visit": {
+      "fromAccraMin": "[—]",
+      "dayBudget": "GH₵ [—]",
+      "bestTime": "[—]"
+    }
+  }
+}

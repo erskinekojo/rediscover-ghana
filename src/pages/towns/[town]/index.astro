@@ -1,0 +1,112 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Icon from '../../../components/Icon.astro';
+import Ph from '../../../components/Ph.astro';
+import SaveButton from '../../../components/SaveButton.astro';
+import WatchButton from '../../../components/WatchButton.astro';
+import { filmedBundles } from '../../../lib/content';
+import { u } from '../../../lib/url';
+
+export function getStaticPaths() {
+  return filmedBundles().map((b) => ({ params: { town: b.town.slug }, props: { b } }));
+}
+const { b } = Astro.props;
+const t = b.town;
+const base = u(`/towns/${t.slug}`);
+const kindColor: Record<string, string> = { food: '#7A3B1D', festival: '#7A5A0E', craft: '#1D3F6E' };
+---
+<Base title={t.name} description={t.blurb} nav="discover">
+  <Ph aria={t.heroImage} label={t.heroImage} striped color="#2B3D31" class="hero">
+    <div class="hero-top" style="position:absolute;inset:20px 20px auto 20px">
+      <a class="icon-btn solid" href={u('/')} aria-label="Back"><Icon name="back" /></a>
+      <SaveButton id={`town:${t.slug}`} kind="Town" title={t.name} href={`${base}/`} sub={t.region} />
+    </div>
+  </Ph>
+
+  <section class="pad stack" style="padding-top:22px;gap:10px">
+    <span class="muted" style="font-size:13px">{t.region} · {t.district} · Ga coast</span>
+    <h1 class="display">{t.name}</h1>
+    <p style="font-size:16px;line-height:1.5;color:var(--body)">{t.blurb}</p>
+    <WatchButton id="film" label={`Watch the film · ${t.filmDuration}`} title={`${t.name}: the film`} url={t.filmUrl} class="btn btn-primary" />
+  </section>
+
+  <nav class="tabs" aria-label="Chapters" id="tabs">
+    <a href="#origin" aria-current="true">Origin</a>
+    <a href="#people">People</a>
+    <a href="#texture">Texture</a>
+    <a href="#visit">Go see it</a>
+  </nav>
+
+  <section id="origin" class="section">
+    <p class="label">Chapter 1 · Origin</p>
+    <a class="card card-link" href={`${base}/origin/`}>
+      <span class="card-title">How {t.name} began, as its elders tell it</span>
+      <span class="body-copy">{t.chapters.origin.teaser}</span>
+      <span class="muted">Oral tradition · told by {t.chapters.origin.toldBy}</span>
+      <span style="font-size:14px;font-weight:600;color:var(--accent)">Read the full story →</span>
+    </a>
+  </section>
+
+  <section id="people" class="section">
+    <p class="label">Chapter 2 · People of {t.name}</p>
+    <div class="people-grid">
+      {b.people.slice(0, 3).map((p) => (
+        <a class="person-card" href={`${base}/people/${p.slug}/`}>
+          <Ph aria={`Portrait, ${p.role}`} color={p.color} />
+          <span class="person-name">{p.name}</span>
+          <span class="person-role">{p.role}</span>
+        </a>
+      ))}
+    </div>
+    {b.people.length > 3 && <a href={u(`/browse/people/`)} style="font-size:14px;font-weight:500">All {b.people.length} people →</a>}
+  </section>
+
+  <section id="texture" class="section">
+    <p class="label">Chapter 3 · Texture</p>
+    <div class="list">
+      {b.town.chapters.texture.map((x) => (
+        <div class="item">
+          <Ph aria={x.title} color={x.color} />
+          <div class="item-main">
+            <span class="item-kind" style={`color:${kindColor[x.kind]}`}>{x.kind}</span>
+            <span style="font-size:15px;font-weight:600">{x.title}</span>
+            <span class="muted">{x.note}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section id="visit" class="section">
+    <p class="label">Chapter 4 · Go see it</p>
+    <a class="dark-card card-link" style="text-decoration:none;color:#F6F4EE" href={`${base}/visit/`}>
+      <span style="font-family:var(--head);font-size:21px;font-weight:600">{b.places.length} places worth your day</span>
+      <div class="stat-grid">
+        <div><span>From Accra</span><span>{t.chapters.visit.fromAccraMin} min</span></div>
+        <div><span>Day budget</span><span>{t.chapters.visit.dayBudget}</span></div>
+        <div><span>Best time</span><span>{t.chapters.visit.bestTime}</span></div>
+      </div>
+      <span style="font-size:14px;font-weight:600;color:var(--gold)">Plan your visit →</span>
+    </a>
+  </section>
+
+  <footer class="footer-note">
+    <span class="muted">{t.credits} · {t.filmedDate}</span>
+    <span class="muted">Interviews: {b.people.length} · Sources: {b.sources.length} · Last verified: {t.lastVerified}</span>
+    <a href={`${base}/origin/#sources`} style="font-size:13px;font-weight:600">View sources and credits</a>
+  </footer>
+
+  <script>
+    // Highlight the chapter tab for the section in view.
+    const tabs = [...document.querySelectorAll<HTMLAnchorElement>('#tabs a')];
+    const secs = tabs.map((a) => document.querySelector(a.getAttribute('href')!)!);
+    const set = (i: number) => tabs.forEach((a, j) => (j === i ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+    const onScroll = () => {
+      let cur = 0;
+      secs.forEach((s, i) => { if (s.getBoundingClientRect().top < 140) cur = i; });
+      set(cur);
+    };
+    addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  </script>
+</Base>

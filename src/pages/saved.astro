@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Saved" nav="saved">
+  <section class="section" style="padding-top:24px">
+    <p class="label">Kept on this phone</p>
+    <h1 class="title">Saved</h1>
+    <div id="list" class="list" style="margin-bottom:28px"></div>
+    <div id="empty" class="empty" hidden>
+      <p>Nothing saved yet.</p>
+      <p class="muted" style="margin-top:6px">Tap the bookmark on a town, person or place to keep it here.</p>
+    </div>
+  </section>
+  <script>
+    const list = document.getElementById('list')!;
+    const empty = document.getElementById('empty')!;
+    const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+    const render = () => {
+      let items: { id: string; kind: string; title: string; href: string; sub: string }[] = [];
+      try { items = JSON.parse(localStorage.getItem('rg:saved') || '[]'); } catch {}
+      empty.hidden = items.length > 0;
+      list.innerHTML = items.map((i) =>
+        `<div class="item"><a class="item-main" style="text-decoration:none;color:inherit;min-height:44px;justify-content:center" href="${esc(i.href)}"><span class="item-kind muted">${esc(i.kind)}</span><span class="item-title">${esc(i.title)}</span><span class="muted">${esc(i.sub)}</span></a>` +
+        `<button class="icon-btn" data-remove="${esc(i.id)}" aria-label="Remove ${esc(i.title)} from saved">×</button></div>`).join('');
+    };
+    list.addEventListener('click', (e) => {
+      const id = (e.target as Element).closest<HTMLElement>('[data-remove]')?.dataset.remove;
+      if (!id) return;
+      try {
+        const next = JSON.parse(localStorage.getItem('rg:saved') || '[]').filter((i: { id: string }) => i.id !== id);
+        localStorage.setItem('rg:saved', JSON.stringify(next));
+      } catch {}
+      render();
+    });
+    render();
+  </script>
+</Base>

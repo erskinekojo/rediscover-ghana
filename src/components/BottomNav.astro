@@ -1,0 +1,17 @@
+---
+import Icon from './Icon.astro';
+import { u } from '../lib/url';
+interface Props { active?: 'discover' | 'map' | 'saved' | 'contribute' | '' }
+const { active = '' } = Astro.props;
+const items = [
+  { key: 'discover', label: 'Discover', href: u('/'), icon: 'compass' },
+  { key: 'map', label: 'Map', href: u('/map/'), icon: 'map' },
+  { key: 'saved', label: 'Saved', href: u('/saved/'), icon: 'bookmark' },
+  { key: 'contribute', label: 'Contribute', href: u('/contribute/'), icon: 'flag' },
+];
+---
+<nav class="bottom-nav" aria-label="Main">
+  {items.map((i) => (
+    <a href={i.href} aria-current={active === i.key ? 'page' : undefined}><Icon name={i.icon} size={22} />{i.label}</a>
+  ))}
+</nav>

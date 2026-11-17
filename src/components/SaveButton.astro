@@ -1,0 +1,8 @@
+---
+import Icon from './Icon.astro';
+interface Props { id: string; kind: string; title: string; href: string; sub?: string; class?: string }
+const { id, kind, title, href, sub = '', class: cls = 'icon-btn solid' } = Astro.props;
+---
+<button type="button" class={cls} data-save data-save-id={id} data-save-kind={kind} data-save-title={title} data-save-href={href} data-save-sub={sub} aria-pressed="false" aria-label={`Save ${title}`}>
+  <Icon name="bookmark" />
+</button>

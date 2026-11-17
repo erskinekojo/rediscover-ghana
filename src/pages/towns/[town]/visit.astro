@@ -1,0 +1,74 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Icon from '../../../components/Icon.astro';
+import Ph from '../../../components/Ph.astro';
+import SaveButton from '../../../components/SaveButton.astro';
+import { filmedBundles } from '../../../lib/content';
+import { u } from '../../../lib/url';
+
+export function getStaticPaths() {
+  return filmedBundles().map((b) => ({ params: { town: b.town.slug }, props: { b } }));
+}
+const { b } = Astro.props;
+const t = b.town;
+---
+<Base title={`Visit ${t.name}`} nav="discover">
+  <header class="topbar">
+    <a class="icon-btn" href={u(`/towns/${t.slug}/#visit`)} aria-label={`Back to ${t.name}`}><Icon name="back" /></a>
+  </header>
+
+  <section class="section" style="padding-top:8px">
+    <p class="label">{t.name} · Chapter 4</p>
+    <h1 class="title">Go see it</h1>
+    <p class="verified"><Icon name="check" size={16} stroke="#1E5B3A" />Everything on this page was checked in person · Last verified {t.lastVerified}</p>
+  </section>
+
+  <section class="section">
+    <h2 class="h2">Getting there from Accra Central</h2>
+    <div class="list">
+      {b.transport.map((x) => (
+        <div class="transport">
+          <div class="stack" style="gap:2px"><strong>{x.mode}</strong><span class="muted">{x.note}</span></div>
+          <strong style="white-space:nowrap">{x.priceGhs}</strong>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="h2">Places worth your day</h2>
+    <div class="list" style="gap:14px">
+      {b.places.map((p) => (
+        <article class="place">
+          <Ph aria={p.image} label={p.image} color={p.color} striped />
+          <div class="place-body">
+            <div class="row-head"><h3 style="font-family:var(--head);font-size:18px;font-weight:600">{p.name}</h3>
+              <SaveButton id={`place:${t.slug}/${p.slug}`} kind="Place" title={p.name} href={u(`/towns/${t.slug}/visit/`)} sub={t.name} class="icon-btn" /></div>
+            <div class="chips">
+              <span class="tag">{p.bestTime}</span>
+              <span class="tag">{p.cost}</span>
+              {p.payment && <span class="tag">{p.payment}</span>}
+              {p.tags.map((x) => <span class="tag">{x}</span>)}
+            </div>
+            <span class="muted">Last verified {p.lastVerified}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="respect">
+      <h2 class="h2">Respect notes</h2>
+      <ul>{b.respectNotes.map((n) => <li>{n}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section" style="margin-bottom:28px">
+    <div class="later" aria-disabled="true">
+      <span class="badge research" style="align-self:flex-start">Later phase</span>
+      <h2 class="h2">Go with a local guide</h2>
+      <p class="body-copy">Book a walk with someone from {t.name}. This comes once the town pages have an audience and the guides are in place.</p>
+    </div>
+  </section>
+</Base>

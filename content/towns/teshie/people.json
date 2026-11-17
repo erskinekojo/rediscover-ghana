@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "elder", "townSlug": "teshie", "name": "[Elder's name]", "role": "Keeper of history",
+    "yearsLabel": "[Role] · [N] years", "portrait": "Portrait · 5-second hold", "color": "#4A3A27",
+    "quote": "[A line from the elder about why the town's story must be kept.]",
+    "shortVideoUrl": "", "shortDuration": "[0:58]",
+    "dayTitle": "A day with the keeper of history",
+    "dayTimeline": [
+      { "label": "Early morning", "text": "[How the day starts]" },
+      { "label": "Midday", "text": "[Who comes to see them, and why]" },
+      { "label": "Afternoon", "text": "[What they pass on, and to whom]" },
+      { "label": "Evening", "text": "[How the day ends]" }
+    ],
+    "whatsChanging": "[In their words: what has changed in the town, what is harder now, and who will carry the story on.]",
+    "consent": false
+  },
+  {
+    "slug": "fish-smoker", "townSlug": "teshie", "name": "[Her name]", "role": "Fish smoker",
+    "yearsLabel": "[25] years at the ovens", "portrait": "Portrait · 5-second hold", "color": "#3B2F22",
+    "quote": "[A line from her interview about what this work means to her family.]",
+    "shortVideoUrl": "", "shortDuration": "[0:58]",
+    "dayTitle": "A day at the ovens",
+    "dayTimeline": [
+      { "label": "Before dawn", "text": "[Buys fish as the canoes land]" },
+      { "label": "Morning", "text": "[Cleans, salts and lays the fish on the racks]" },
+      { "label": "Afternoon", "text": "[Tends the smoke for hours]" },
+      { "label": "Evening", "text": "[Sells to traders headed for Accra's markets]" }
+    ],
+    "whatsChanging": "[In her words: what the work was like when she started, what's harder now, and whether her children will carry it on.]",
+    "consent": false
+  },
+  {
+    "slug": "coffin-carver", "townSlug": "teshie", "name": "[Name]", "role": "Coffin carver",
+    "yearsLabel": "[N] years at the workshop", "portrait": "Portrait · 5-second hold", "color": "#23402F",
+    "quote": "[A line from the carver about what a coffin says about a life.]",
+    "shortVideoUrl": "", "shortDuration": "[1:24]",
+    "dayTitle": "A day at the workshop",
+    "dayTimeline": [
+      { "label": "Morning", "text": "[Sketches and marks the wood]" },
+      { "label": "Midday", "text": "[Carves the shape]" },
+      { "label": "Afternoon", "text": "[Sands and paints]" },
+      { "label": "Evening", "text": "[Meets the family who ordered it]" }
+    ],
+    "whatsChanging": "[In their words: who orders coffins now, how the craft is taught, and what visitors get wrong.]",
+    "consent": false
+  },
+  {
+    "slug": "young-voice", "townSlug": "teshie", "name": "[Name]", "role": "Young voice",
+    "yearsLabel": "[Age or occupation]", "portrait": "Portrait · 5-second hold", "color": "#1D3F6E",
+    "quote": "[A line from a young person about what Teshie means to them.]",
+    "shortVideoUrl": "", "shortDuration": "[0:45]",
+    "dayTitle": "A day in Teshie",
+    "dayTimeline": [
+      { "label": "Morning", "text": "[How the day starts]" },
+      { "label": "Midday", "text": "[Work or school]" },
+      { "label": "Afternoon", "text": "[Where friends meet]" },
+      { "label": "Evening", "text": "[What the town feels like at night]" }
+    ],
+    "whatsChanging": "[In their words: what they want to keep, and what they want to change.]",
+    "consent": false
+  }
+]

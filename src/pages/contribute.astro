@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import { getBundles } from '../lib/content';
+const towns = getBundles().map((b) => b.town);
+---
+<Base title="Contribute" nav="contribute">
+  <section class="section" style="padding-top:24px">
+    <p class="label">Contribute</p>
+    <h1 class="title">Know a story from your town?</h1>
+    <p class="body-copy" style="font-size:16px">Suggest a town, an elder to interview, a place we should visit, or a different version of a story we’ve told. Every origin story here is credited to the people who told it.</p>
+    <div class="notice" id="proto">This is a prototype: the form below doesn’t send anything yet. Contact: [email or WhatsApp number].</div>
+
+    <form id="form" class="stack" style="gap:16px;margin-bottom:28px">
+      <div class="field">
+        <label for="topic">What would you like to share?</label>
+        <select id="topic" name="topic">
+          <option value="town">Suggest a town</option>
+          <option value="elder">Suggest an elder or person to interview</option>
+          <option value="place">Suggest a place to visit</option>
+          <option value="version">Tell us a different version of a story</option>
+          <option value="volunteer">Volunteer with the project</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="town">Which town?</label>
+        <select id="town" name="town">
+          <option value="">Another town</option>
+          {towns.map((t) => <option value={t.slug}>{t.name}</option>)}
+        </select>
+      </div>
+      <div class="field"><label for="msg">Tell us a little</label><textarea id="msg" name="msg" rows="5"></textarea></div>
+      <div class="field"><label for="contact">How can we reach you? (optional)</label><input id="contact" name="contact" autocomplete="off" /></div>
+      <button class="btn btn-primary" type="submit">Send</button>
+      <p id="thanks" class="notice" hidden role="status">Thank you. In the finished app this goes straight to the team.</p>
+    </form>
+  </section>
+  <script>
+    const p = new URLSearchParams(location.search);
+    const set = (id: string, v: string | null) => { const el = document.getElementById(id) as HTMLSelectElement; if (v && [...el.options].some((o) => o.value === v)) el.value = v; };
+    set('topic', p.get('topic'));
+    set('town', p.get('town'));
+    document.getElementById('form')!.addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('thanks')!.hidden = false;
+    });
+  </script>
+</Base>

@@ -1,0 +1,18 @@
+---
+interface Props { name: string; size?: number; stroke?: string; fill?: string; width?: number }
+const { name, size = 20, stroke = 'currentColor', fill = 'none', width = 2 } = Astro.props;
+const paths: Record<string, string> = {
+  pin: '<circle cx="12" cy="10" r="3"/><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/>',
+  user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',
+  back: '<path d="M15 18l-6-6 6-6"/>',
+  bookmark: '<path d="M6 3h12v18l-6-4-6 4z"/>',
+  play: '<path d="M8 5v14l11-7z"/>',
+  compass: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+  map: '<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
+  flag: '<path d="M4 19V5M4 5h11l-2 4 2 4H4"/>',
+  check: '<path d="M5 12l5 5 9-10"/>',
+  close: '<path d="M6 6l12 12M18 6L6 18"/>',
+};
+---
+<svg aria-hidden="true" width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke={stroke} stroke-width={width} stroke-linecap="round" stroke-linejoin="round" set:html={paths[name]} />

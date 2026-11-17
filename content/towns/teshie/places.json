@@ -1,0 +1,6 @@
+[
+  { "slug": "beach", "townSlug": "teshie", "name": "Beach and canoe landing", "image": "Photo · Canoe landing", "bestTime": "Best: 6–8 am", "cost": "Free", "payment": "", "tags": ["Ask before photos"], "coords": null, "lastVerified": "[date]", "color": "#2B3D31" },
+  { "slug": "ovens", "townSlug": "teshie", "name": "Fish-smoking ovens", "image": "Photo · The ovens", "bestTime": "Best: mornings", "cost": "Go with a local", "payment": "Cash or MoMo", "tags": [], "coords": null, "lastVerified": "[date]", "color": "#4A3A27" },
+  { "slug": "coffins", "townSlug": "teshie", "name": "Fantasy coffin workshop", "image": "Photo · The workshop", "bestTime": "Weekdays", "cost": "GH₵ [—] tour", "payment": "", "tags": ["Call ahead"], "coords": null, "lastVerified": "[date]", "color": "#23402F" },
+  { "slug": "eat", "townSlug": "teshie", "name": "[Where locals eat]", "image": "Photo · Local eatery", "bestTime": "Lunch", "cost": "GH₵ [—] a plate", "payment": "MoMo OK", "tags": [], "coords": null, "lastVerified": "[date]", "color": "#7A3B1D" }
+]

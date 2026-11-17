@@ -1,0 +1,14 @@
+[
+  {
+    "townSlug": "teshie", "type": "oral", "isPrimary": true,
+    "toldBy": "[Elder's name]", "role": "[role]", "recordedDate": "[date]",
+    "text": "[The founding account, written in plain English from the interview: who the first settlers were, where they came from, why they chose this stretch of coast, and how the town grew.]",
+    "quote": "[A line from the elder that carries the heart of the story.]",
+    "quoteGa": "[…]"
+  },
+  {
+    "townSlug": "teshie", "type": "oral", "isPrimary": false,
+    "toldBy": "[Name]", "role": "[family or quarter]", "recordedDate": "[date]",
+    "text": "[Where this version differs, and what it adds. Both accounts are shown; we don't pick a winner.]"
+  }
+]

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Rediscover Ghana — Map of towns</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#1E5B3A}a:hover{color:#123D26}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #F6F4EE; color: #171A16; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden">
+
+<header style="padding: 20px 20px 12px 20px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: -0.4px">The Ga coast</h1>
+<span style="font-size: 13px; color: #5B5F57">1 of 6 filmed</span>
+</div>
+<div style="display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: #33362F">
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 10px; height: 10px; border-radius: 5px; background: #1E5B3A"></span>Filmed</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 10px; height: 10px; border-radius: 5px; background: #E0A526"></span>Filming soon</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 10px; height: 10px; border-radius: 5px; background: #8E8A7E"></span>Researching</span>
+</div>
+</header>
+
+<div style="position: relative; height: 430px; background: #E9E4D6; border-top: 1px solid #DDD7C6; border-bottom: 1px solid #DDD7C6">
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: 0; height: 430px; background: #CFDDE0; clip-path: polygon(0 300px, 390px 262px, 390px 430px, 0 430px)"></div>
+<span aria-hidden="true" style="position: absolute; left: 150px; top: 360px; font-size: 12px; font-weight: 600; letter-spacing: 2px; color: #4E6A70">GULF OF GUINEA</span>
+<span aria-hidden="true" style="position: absolute; left: 20px; top: 40px; font-size: 12px; font-weight: 600; letter-spacing: 2px; color: #8A8472">GREATER ACCRA</span>
+<sc-for list="{{towns}}" as="t" hint-placeholder-count="6">
+<button aria-label="{{t.aria}}" onClick="{{t.pick}}" style="{{t.pinStyle}}">
+<span style="{{t.dotStyle}}"></span>
+<span style="font-size: 12px; font-weight: 600; color: #171A16; background: #F6F4EE; border-radius: 6px; padding: 2px 6px; white-space: nowrap">{{t.name}}</span>
+</button>
+</sc-for>
+</div>
+
+<section style="margin: -24px 12px 0 12px; position: relative; padding: 18px; border-radius: 22px; background: #FFFFFF; border: 1px solid #E4E0D5; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">{{sel.name}}</span>
+<span style="{{sel.badgeStyle}}">{{sel.label}}</span>
+</div>
+<span style="font-size: 14px; line-height: 1.45; color: #33362F">{{sel.blurb}}</span>
+<sc-if value="{{sel.filmed}}" hint-placeholder-val="{{ true }}">
+<a href="Town.dc.html" style="margin-top: 4px; text-decoration: none; height: 48px; border-radius: 24px; background: #1E5B3A; color: #FFFFFF; font-weight: 600; font-size: 15px; display: flex; align-items: center; justify-content: center">Open town page</a>
+</sc-if>
+<sc-if value="{{sel.notFilmed}}" hint-placeholder-val="{{ false }}">
+<a href="#" style="margin-top: 4px; text-decoration: none; height: 48px; border-radius: 24px; border: 1px solid #171A16; color: #171A16; font-weight: 600; font-size: 15px; display: flex; align-items: center; justify-content: center">Help us tell this town's story</a>
+</sc-if>
+</section>
+
+<nav aria-label="Main" style="margin-top: auto; display: flex; justify-content: space-around; padding: 12px 8px 24px 8px; border-top: 1px solid #E4E0D5; background: #FFFFFF">
+<a href="Main.dc.html" style="text-decoration: none; color: #5B5F57; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; font-weight: 500; min-width: 64px; min-height: 44px">
+<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M15.5 8.5l-2 5-5 2 2-5z"></path></svg>Discover</a>
+<a href="Map.dc.html" style="text-decoration: none; color: #1E5B3A; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; min-width: 64px; min-height: 44px">
+<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"></path><path d="M9 4v14M15 6v14"></path></svg>Map</a>
+<a href="#" style="text-decoration: none; color: #5B5F57; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; font-weight: 500; min-width: 64px; min-height: 44px">
+<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>Saved</a>
+<a href="#" style="text-decoration: none; color: #5B5F57; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; font-weight: 500; min-width: 64px; min-height: 44px">
+<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 5h11l-2 4 2 4H4"></path></svg>Contribute</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { picked: 'teshie' };
+}
+renderVals() {
+var colors = { filmed: '#1E5B3A', soon: '#E0A526', research: '#8E8A7E' };
+var labels = { filmed: 'Filmed', soon: 'Filming soon', research: 'Researching' };
+var badgeBg = { filmed: '#D7E7DC', soon: '#F3D58C', research: '#E4E0D5' };
+var data = [
+{ id: 'jamestown', name: 'Jamestown', status: 'research', x: 18, y: 250, blurb: 'Old Accra by the harbour: lighthouse, boxing gyms and the fishing port. Researching sources and contacts.' },
+{ id: 'osu', name: 'Osu', status: 'research', x: 78, y: 210, blurb: 'Castle, Oxford Street and some of the oldest families in Accra. Researching sources and contacts.' },
+{ id: 'la', name: 'La', status: 'soon', x: 138, y: 250, blurb: 'Labadi Beach, the La palace and its own Homowo. Shoot planned for [month].' },
+{ id: 'teshie', name: 'Teshie', status: 'filmed', x: 196, y: 205, blurb: 'Fishing canoes, fantasy coffins and Homowo by the sea. Film, 4 people and a visit guide.' },
+{ id: 'nungua', name: 'Nungua', status: 'research', x: 252, y: 238, blurb: 'Neighbour to Teshie, with its own story of the coast. Researching sources and contacts.' },
+{ id: 'tema', name: 'Tema', status: 'research', x: 312, y: 196, blurb: 'From fishing village to port city. Researching sources and contacts.' }
+];
+var self = this;
+var picked = this.state.picked;
+var towns = data.map(function (t) {
+var on = t.id === picked;
+return {
+name: t.name,
+aria: t.name + ', ' + labels[t.status],
+pick: function () { self.setState({ picked: t.id }); },
+pinStyle: 'position: absolute; left: ' + t.x + 'px; top: ' + t.y + 'px; min-width: 44px; min-height: 44px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; cursor: pointer; font-family: inherit',
+dotStyle: 'width: ' + (on ? 22 : 16) + 'px; height: ' + (on ? 22 : 16) + 'px; border-radius: 50%; background: ' + colors[t.status] + '; border: 3px solid ' + (on ? '#171A16' : '#FFFFFF') + '; box-sizing: border-box'
+};
+});
+var s = data.filter(function (t) { return t.id === picked; })[0];
+return {
+towns: towns,
+sel: {
+name: s.name,
+label: labels[s.status],
+blurb: s.blurb,
+filmed: s.status === 'filmed',
+notFilmed: s.status !== 'filmed',
+badgeStyle: 'font-size: 12px; font-weight: 600; color: #171A16; background: ' + badgeBg[s.status] + '; border-radius: 10px; padding: 4px 9px'
+}
+};
+}
+}
+</script>
+</body>
+</html>

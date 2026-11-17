@@ -1,0 +1,31 @@
+{
+  "slug": "osu",
+  "name": "Osu",
+  "gaName": "[Ga spelling]",
+  "region": "Greater Accra",
+  "district": "[District]",
+  "status": "research",
+  "coords": [
+    5.556,
+    -0.1822
+  ],
+  "blurb": "Castle, Oxford Street and some of the oldest families in Accra. Researching sources and contacts.",
+  "heroImage": "Photo · Osu",
+  "filmUrl": "",
+  "filmDuration": "",
+  "filmedDate": "",
+  "lastVerified": "[date]",
+  "credits": "Keen Eye Media Alliance",
+  "chapters": {
+    "origin": {
+      "teaser": "",
+      "toldBy": ""
+    },
+    "texture": [],
+    "visit": {
+      "fromAccraMin": "[—]",
+      "dayBudget": "GH₵ [—]",
+      "bestTime": "[—]"
+    }
+  }
+}

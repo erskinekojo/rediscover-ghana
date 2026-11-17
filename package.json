@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "@astrojs/check": "^0.9.12",
+    "astro": "^5.18.2",
+    "sharp": "^0.35.5",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "icons": "node scripts/make-icons.mjs"
+  },
+  "name": "rediscover-ghana",
+  "type": "module",
+  "private": true
+}

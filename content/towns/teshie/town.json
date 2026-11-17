@@ -1,0 +1,28 @@
+{
+  "slug": "teshie",
+  "name": "Teshie",
+  "gaName": "[Ga spelling]",
+  "region": "Greater Accra",
+  "district": "Ledzokuku Municipal",
+  "status": "filmed",
+  "coords": [5.5855, -0.1034],
+  "blurb": "A Ga fishing town on the coast east of Accra, known for its canoes, its fantasy coffin carvers and its Homowo celebrations.",
+  "heroImage": "Drone · Town meets the sea",
+  "filmUrl": "",
+  "filmDuration": "[12 min]",
+  "filmedDate": "[Month 2027]",
+  "lastVerified": "[date]",
+  "credits": "Filmed and produced by Keen Eye Media Alliance",
+  "chapters": {
+    "origin": {
+      "teaser": "[Two-line teaser from the elder's account: who came first, where they came from, and why they stayed by the sea.]",
+      "toldBy": "[Elder's name]"
+    },
+    "texture": [
+      { "kind": "food", "title": "[The dish Teshie is known for]", "note": "Where locals say to eat it", "color": "#7A3B1D" },
+      { "kind": "festival", "title": "Homowo in Teshie", "note": "The Ga harvest festival · [dates]", "color": "#8A6A16" },
+      { "kind": "craft", "title": "Fantasy coffins", "note": "Carved in shapes that tell a life story", "color": "#1D3F6E" }
+    ],
+    "visit": { "fromAccraMin": "[40]", "dayBudget": "GH₵ [—]", "bestTime": "Early AM" }
+  }
+}

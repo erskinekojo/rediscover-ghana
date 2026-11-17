@@ -1,0 +1,5 @@
+[
+  { "slug": "name", "townSlug": "teshie", "title": "Where the name Teshie comes from", "duration": "1:10", "videoUrl": "", "thumbnail": "Elder telling the story of the name", "color": "#3B2F22", "link": "origin/" },
+  { "slug": "ovens", "townSlug": "teshie", "title": "A day at the fish-smoking ovens", "duration": "0:58", "videoUrl": "", "thumbnail": "Fish smoker at her oven", "color": "#4A3A27", "link": "people/fish-smoker/" },
+  { "slug": "coffins", "townSlug": "teshie", "title": "The coffin carvers of Teshie", "duration": "1:24", "videoUrl": "", "thumbnail": "Carved coffin being painted", "color": "#23402F", "link": "people/coffin-carver/" }
+]

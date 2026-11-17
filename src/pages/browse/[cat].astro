@@ -1,0 +1,47 @@
+---
+import Base from '../../layouts/Base.astro';
+import Ph from '../../components/Ph.astro';
+import Icon from '../../components/Icon.astro';
+import { getBundles, STATUS_LABEL } from '../../lib/content';
+import { u } from '../../lib/url';
+
+export function getStaticPaths() {
+  return ['towns', 'people', 'food', 'festivals', 'places'].map((cat) => ({ params: { cat } }));
+}
+const { cat } = Astro.params;
+const titles: Record<string, string> = { towns: 'Towns', people: 'People', food: 'Food', festivals: 'Festivals', places: 'Places to go' };
+const bundles = getBundles();
+
+type Row = { title: string; sub: string; href: string; color: string; badge?: string; badgeClass?: string };
+let rows: Row[] = [];
+if (cat === 'towns') {
+  rows = bundles.map((b) => ({ title: b.town.name, sub: b.town.region, href: u(b.town.status === 'filmed' ? `/towns/${b.town.slug}/` : `/map/?town=${b.town.slug}`), color: '#2E3B31', badge: STATUS_LABEL[b.town.status], badgeClass: b.town.status }));
+} else if (cat === 'people') {
+  rows = bundles.flatMap((b) => b.people.map((p) => ({ title: p.name, sub: `${p.role} · ${b.town.name}`, href: u(`/towns/${b.town.slug}/people/${p.slug}/`), color: p.color })));
+} else if (cat === 'food' || cat === 'festivals') {
+  const kind = cat === 'food' ? 'food' : 'festival';
+  rows = bundles.flatMap((b) => b.town.chapters.texture.filter((x) => x.kind === kind).map((x) => ({ title: x.title, sub: `${x.note} · ${b.town.name}`, href: u(`/towns/${b.town.slug}/#texture`), color: x.color })));
+} else {
+  rows = bundles.flatMap((b) => b.places.map((p) => ({ title: p.name, sub: `${p.bestTime} · ${b.town.name}`, href: u(`/towns/${b.town.slug}/visit/`), color: p.color })));
+}
+---
+<Base title={titles[cat!]} nav="discover">
+  <header class="topbar">
+    <a class="icon-btn" href={u('/')} aria-label="Back to Discover"><Icon name="back" /></a>
+  </header>
+  <section class="section" style="padding-top:8px">
+    <h1 class="title">{titles[cat!]}</h1>
+    <div class="chips" style="margin:4px 0">
+      {Object.entries(titles).map(([k, v]) => <a class:list={['chip', k === cat && 'on']} href={u(`/browse/${k}/`)}>{v}</a>)}
+    </div>
+    <div class="list" style="margin-bottom:28px">
+      {rows.map((r) => (
+        <a class="item" href={r.href}>
+          <Ph aria={r.title} color={r.color} />
+          <span class="item-main"><span class="item-title">{r.title}</span><span class="muted">{r.sub}</span></span>
+          {r.badge && <span class:list={['badge', r.badgeClass]}>{r.badge}</span>}
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>

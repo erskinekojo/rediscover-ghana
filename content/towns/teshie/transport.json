@@ -1,0 +1,5 @@
+[
+  { "townSlug": "teshie", "mode": "Trotro", "note": "From [station], ask for [stop]", "priceGhs": "GH₵ [—]" },
+  { "townSlug": "teshie", "mode": "Bolt / Uber", "note": "[35–50] min, depending on traffic", "priceGhs": "GH₵ [—]" },
+  { "townSlug": "teshie", "mode": "Driving", "note": "Parking: [where]", "priceGhs": "Fuel only" }
+]

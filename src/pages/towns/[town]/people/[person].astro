@@ -1,0 +1,61 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import Icon from '../../../../components/Icon.astro';
+import Ph from '../../../../components/Ph.astro';
+import SaveButton from '../../../../components/SaveButton.astro';
+import WatchButton from '../../../../components/WatchButton.astro';
+import { filmedBundles } from '../../../../lib/content';
+import { u } from '../../../../lib/url';
+
+export function getStaticPaths() {
+  return filmedBundles().flatMap((b) => b.people.map((p) => ({ params: { town: b.town.slug, person: p.slug }, props: { b, p } })));
+}
+const { b, p } = Astro.props;
+const t = b.town;
+const more = b.people.filter((x) => x.slug !== p.slug);
+---
+<Base title={`${p.name}, ${p.role}`} nav="discover">
+  <Ph aria={`Portrait, ${p.role}`} label={p.portrait} color={p.color} striped class="hero" style="height:420px">
+    <div class="hero-top" style="position:absolute;inset:20px 20px auto 20px">
+      <a class="icon-btn solid" href={u(`/towns/${t.slug}/#people`)} aria-label={`Back to ${t.name}`}><Icon name="back" /></a>
+      <SaveButton id={`person:${t.slug}/${p.slug}`} kind="Person" title={`${p.name}, ${p.role}`} href={u(`/towns/${t.slug}/people/${p.slug}/`)} sub={t.name} />
+    </div>
+  </Ph>
+
+  <section class="pad stack" style="padding-top:22px;gap:10px">
+    <p class="label">People of {t.name}</p>
+    <h1 class="display" style="font-size:34px">{p.name}</h1>
+    <p style="font-size:15px;color:var(--body)">{p.role} · {p.yearsLabel}</p>
+    <blockquote class="pull" style="margin-top:8px">“{p.quote}”</blockquote>
+    <div style="margin-top:8px">
+      <WatchButton id="story" label={`Watch their story · ${p.shortDuration}`} title={`${p.name}, ${p.role}`} url={p.shortVideoUrl} class="btn btn-primary" />
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="h2">{p.dayTitle}</h2>
+    <ol class="timeline">
+      {p.dayTimeline.map((s) => (
+        <li><span class="dot"></span><div><p class="tl-label">{s.label}</p><p class="body-copy">{s.text}</p></div></li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="section" style="padding-top:12px">
+    <h2 class="h2">What’s changing</h2>
+    <p class="body-copy" style="font-size:16px">{p.whatsChanging}</p>
+  </section>
+
+  <section class="section" style="padding-right:0;margin-bottom:28px">
+    <h2 class="h2">More people of {t.name}</h2>
+    <div class="hrow">
+      {more.map((m) => (
+        <a class="person-card" href={u(`/towns/${t.slug}/people/${m.slug}/`)}>
+          <Ph aria={`Portrait, ${m.role}`} color={m.color} />
+          <span class="person-name">{m.name}</span>
+          <span class="person-role">{m.role}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>

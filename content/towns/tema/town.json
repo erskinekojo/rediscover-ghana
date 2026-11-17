@@ -1,0 +1,31 @@
+{
+  "slug": "tema",
+  "name": "Tema",
+  "gaName": "[Ga spelling]",
+  "region": "Greater Accra",
+  "district": "[District]",
+  "status": "research",
+  "coords": [
+    5.6698,
+    -0.0166
+  ],
+  "blurb": "From fishing village to port city. Researching sources and contacts.",
+  "heroImage": "Photo · Tema",
+  "filmUrl": "",
+  "filmDuration": "",
+  "filmedDate": "",
+  "lastVerified": "[date]",
+  "credits": "Keen Eye Media Alliance",
+  "chapters": {
+    "origin": {
+      "teaser": "",
+      "toldBy": ""
+    },
+    "texture": [],
+    "visit": {
+      "fromAccraMin": "[—]",
+      "dayBudget": "GH₵ [—]",
+      "bestTime": "[—]"
+    }
+  }
+}

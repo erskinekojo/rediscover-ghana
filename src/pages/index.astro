@@ -1,0 +1,122 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Ph from '../components/Ph.astro';
+import { getBundles, filmedBundles, STATUS_LABEL } from '../lib/content';
+import { u } from '../lib/url';
+
+const featured = filmedBundles()[0];
+const t = featured.town;
+const shorts = filmedBundles().flatMap((b) => b.shorts.map((s) => ({ ...s, town: b.town })));
+const next = getBundles().filter((b) => b.town.status !== 'filmed').slice(0, 3);
+
+// Search index: everything findable, built from the content files.
+const index = getBundles().flatMap((b) => [
+  { title: b.town.name, kind: 'Town', href: u(b.town.status === 'filmed' ? `/towns/${b.town.slug}/` : `/map/?town=${b.town.slug}`), text: b.town.blurb },
+  ...b.people.map((p) => ({ title: p.name, kind: p.role, href: u(`/towns/${b.town.slug}/people/${p.slug}/`), text: `${p.role} ${b.town.name}` })),
+  ...b.town.chapters.texture.map((x) => ({ title: x.title, kind: x.kind, href: u(`/towns/${b.town.slug}/#texture`), text: `${x.note} ${b.town.name}` })),
+  ...b.places.map((p) => ({ title: p.name, kind: 'Place', href: u(`/towns/${b.town.slug}/visit/`), text: b.town.name })),
+]);
+const chips = [['towns', 'Towns'], ['people', 'People'], ['food', 'Food'], ['festivals', 'Festivals'], ['places', 'Places to go']];
+---
+<Base title="Rediscover Ghana" nav="discover">
+  <header class="topbar">
+    <a class="brand" href={u('/')}>
+      <span class="brand-mark"><Icon name="pin" size={16} stroke="#E0A526" width={2.2} /></span>
+      <span class="brand-name">Rediscover Ghana</span>
+    </a>
+    <a class="icon-btn" href={u('/saved/')} aria-label="Saved stories"><Icon name="user" /></a>
+  </header>
+
+  <section class="pad stack" style="gap:16px;padding-top:12px">
+    <h1 class="title">Get to know Ghana, one town at a time.</h1>
+    <label class="search">
+      <Icon name="search" size={18} stroke="#5B5F57" />
+      <span class="sr-only">Search</span>
+      <input type="search" id="q" placeholder="Search towns, people, food, festivals" autocomplete="off" />
+    </label>
+    <div id="results" class="results" hidden aria-live="polite"></div>
+  </section>
+
+  <nav class="pad" aria-label="Browse by" style="padding-top:16px">
+    <div class="chips">
+      {chips.map(([slug, label], i) => <a class:list={['chip', i === 0 && 'on']} href={u(`/browse/${slug}/`)}>{label}</a>)}
+    </div>
+  </nav>
+
+  <section class="section" style="padding-top:24px">
+    <p class="label">New film</p>
+    <a class="featured" href={u(`/towns/${t.slug}/`)}>
+      <Ph aria={`${t.heroImage}`} label="Photo · Canoes at sunrise" striped color="#2B3D31">
+        <span style="display:flex;align-items:center;gap:10px;margin-top:auto">
+          <span class="play"><Icon name="play" size={18} fill="#171A16" stroke="none" /></span>
+          <span style="font-size:14px;font-weight:500">Watch the film · {t.filmDuration}</span>
+        </span>
+      </Ph>
+      <div class="featured-body">
+        <span style="font-size:13px;color:#C9D3C9">{t.region} · Ga coast</span>
+        <span style="font-family:var(--head);font-size:28px;font-weight:700;letter-spacing:-0.4px">{t.name}</span>
+        <span style="font-size:15px;line-height:1.45;color:#E8E6DE">Fishing canoes, fantasy coffins and Homowo by the sea. Meet the people who keep this coastal town alive.</span>
+      </div>
+    </a>
+  </section>
+
+  <section class="section" style="padding-right:0">
+    <div class="row-head" style="padding-right:20px">
+      <h2 class="h2">Short stories</h2>
+      <a href={u(`/browse/people/`)}>See all</a>
+    </div>
+    <div class="hrow">
+      {shorts.map((s) => (
+        <a class="short" href={u(`/towns/${s.townSlug}/${s.link}`)}>
+          <Ph aria={s.thumbnail} color={s.color}><span class="dur">{s.duration}</span></Ph>
+          <span class="short-title">{s.title}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="row-head">
+      <h2 class="h2">Next on the coast</h2>
+      <a href={u('/map/')}>Map</a>
+    </div>
+    <div class="list">
+      {next.map((b) => (
+        <a class="item" href={u(`/map/?town=${b.town.slug}`)}>
+          <Ph aria={b.town.name} color="#2E3B31" />
+          <span class="item-main">
+            <span class="item-title">{b.town.name}</span>
+            <span class="muted">{b.town.region}</span>
+          </span>
+          <span class:list={['badge', b.town.status]}>{STATUS_LABEL[b.town.status]}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="pad" style="margin-top:28px;margin-bottom:28px">
+    <div class="dark-card" style="gap:10px">
+      <span style="font-family:var(--head);font-size:19px;font-weight:600">Know a story from your town?</span>
+      <span style="font-size:14px;line-height:1.45;color:#D6D3C9">Suggest a town, an elder to interview, or a place we should visit.</span>
+      <a class="btn btn-gold" style="align-self:flex-start;color:#171A16" href={u('/contribute/')}>Suggest a story</a>
+    </div>
+  </section>
+
+  <script is:inline type="application/json" id="search-index" set:html={JSON.stringify(index)} />
+  <script>
+    const q = document.getElementById('q') as HTMLInputElement;
+    const out = document.getElementById('results')!;
+    const idx: { title: string; kind: string; href: string; text: string }[] = JSON.parse(document.getElementById('search-index')!.textContent || '[]');
+    const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+    q.addEventListener('input', () => {
+      const v = q.value.trim().toLowerCase();
+      if (!v) { out.hidden = true; out.innerHTML = ''; return; }
+      const hits = idx.filter((i) => (i.title + ' ' + i.kind + ' ' + i.text).toLowerCase().includes(v)).slice(0, 8);
+      out.hidden = false;
+      out.innerHTML = hits.length
+        ? hits.map((h) => `<a class="result" href="${esc(h.href)}"><span>${esc(h.title)}</span><span class="muted">${esc(h.kind)}</span></a>`).join('')
+        : '<p class="muted">Nothing yet. Know something about this? Tell us on the Contribute tab.</p>';
+    });
+  </script>
+</Base>

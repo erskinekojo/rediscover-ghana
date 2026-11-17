@@ -1,0 +1,31 @@
+{
+  "slug": "la",
+  "name": "La (Labadi)",
+  "gaName": "[Ga spelling]",
+  "region": "Greater Accra",
+  "district": "[District]",
+  "status": "soon",
+  "coords": [
+    5.5575,
+    -0.1465
+  ],
+  "blurb": "Labadi Beach, the La palace and its own Homowo. Shoot planned for [month].",
+  "heroImage": "Photo · La (Labadi)",
+  "filmUrl": "",
+  "filmDuration": "",
+  "filmedDate": "",
+  "lastVerified": "[date]",
+  "credits": "Keen Eye Media Alliance",
+  "chapters": {
+    "origin": {
+      "teaser": "",
+      "toldBy": ""
+    },
+    "texture": [],
+    "visit": {
+      "fromAccraMin": "[—]",
+      "dayBudget": "GH₵ [—]",
+      "bestTime": "[—]"
+    }
+  }
+}
