@@ -13,21 +13,28 @@ const { b } = Astro.props;
 const t = b.town;
 ---
 <Base title={`Visit ${t.name}`} nav="discover">
-  <header class="topbar">
+  <header class="topbar reveal">
     <a class="icon-btn" href={u(`/towns/${t.slug}/#visit`)} aria-label={`Back to ${t.name}`}><Icon name="back" /></a>
+    <button type="button" class="icon-btn" data-share data-share-title={`Visit ${t.name}`} aria-label="Share this guide"><Icon name="share" /></button>
   </header>
 
-  <section class="section" style="padding-top:8px">
+  <section class="section reveal" style="padding-top:10px">
     <p class="label">{t.name} · Chapter 4</p>
     <h1 class="title">Go see it</h1>
     <p class="verified"><Icon name="check" size={16} stroke="#1E5B3A" />Everything on this page was checked in person · Last verified {t.lastVerified}</p>
   </section>
 
+  <div class="stats reveal" style="margin-top:18px">
+    <div class="stat"><i><Icon name="clock" size={18} /></i><span><b>{t.chapters.visit.fromAccraMin} min</b><small>from Accra</small></span></div>
+    <div class="stat"><i><Icon name="wallet" size={18} /></i><span><b>{t.chapters.visit.dayBudget}</b><small>day budget</small></span></div>
+    <div class="stat"><i><Icon name="sun" size={18} /></i><span><b>{t.chapters.visit.bestTime}</b><small>best time</small></span></div>
+  </div>
+
   <section class="section">
-    <h2 class="h2">Getting there from Accra Central</h2>
+    <h2 class="h2 reveal">Getting there from Accra Central</h2>
     <div class="list">
       {b.transport.map((x) => (
-        <div class="transport">
+        <div class="transport reveal">
           <div class="stack" style="gap:2px"><strong>{x.mode}</strong><span class="muted">{x.note}</span></div>
           <strong style="white-space:nowrap">{x.priceGhs}</strong>
         </div>
@@ -36,35 +43,35 @@ const t = b.town;
   </section>
 
   <section class="section">
-    <h2 class="h2">Places worth your day</h2>
-    <div class="list" style="gap:14px">
+    <h2 class="h2 reveal">Places worth your day</h2>
+    <div class="list" style="gap:16px">
       {b.places.map((p) => (
-        <article class="place">
-          <Ph aria={p.image} label={p.image} color={p.color} striped />
-          <div class="place-body">
-            <div class="row-head"><h3 style="font-family:var(--head);font-size:18px;font-weight:600">{p.name}</h3>
-              <SaveButton id={`place:${t.slug}/${p.slug}`} kind="Place" title={p.name} href={u(`/towns/${t.slug}/visit/`)} sub={t.name} class="icon-btn" /></div>
+        <article class="place zoom reveal">
+          <Ph aria={p.image} label={p.image} color={p.color} />
+          <SaveButton id={`place:${t.slug}/${p.slug}`} kind="Place" title={p.name} href={u(`/towns/${t.slug}/visit/`)} sub={t.name} class="icon-btn glass-btn place-save" />
+          <div class="place-panel glass">
+            <h3>{p.name}</h3>
             <div class="chips">
-              <span class="tag">{p.bestTime}</span>
-              <span class="tag">{p.cost}</span>
-              {p.payment && <span class="tag">{p.payment}</span>}
-              {p.tags.map((x) => <span class="tag">{x}</span>)}
+              <span class="tag-glass">{p.bestTime}</span>
+              <span class="tag-glass">{p.cost}</span>
+              {p.payment && <span class="tag-glass">{p.payment}</span>}
+              {p.tags.map((x) => <span class="tag-glass">{x}</span>)}
             </div>
-            <span class="muted">Last verified {p.lastVerified}</span>
+            <span class="vf">Last verified {p.lastVerified}</span>
           </div>
         </article>
       ))}
     </div>
   </section>
 
-  <section class="section">
+  <section class="section reveal">
     <div class="respect">
       <h2 class="h2">Respect notes</h2>
       <ul>{b.respectNotes.map((n) => <li>{n}</li>)}</ul>
     </div>
   </section>
 
-  <section class="section" style="margin-bottom:28px">
+  <section class="section reveal">
     <div class="later" aria-disabled="true">
       <span class="badge research" style="align-self:flex-start">Later phase</span>
       <h2 class="h2">Go with a local guide</h2>

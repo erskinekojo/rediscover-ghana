@@ -15,22 +15,45 @@ const t = b.town;
 const base = u(`/towns/${t.slug}`);
 const kindColor: Record<string, string> = { food: '#7A3B1D', festival: '#7A5A0E', craft: '#1D3F6E' };
 ---
-<Base title={t.name} description={t.blurb} nav="discover">
-  <Ph aria={t.heroImage} label={t.heroImage} striped color="#2B3D31" class="hero">
-    <div class="hero-top" style="position:absolute;inset:20px 20px auto 20px">
-      <a class="icon-btn solid" href={u('/')} aria-label="Back"><Icon name="back" /></a>
+<Base title={t.name} description={t.blurb}>
+  <div class="t-hero parallax">
+    <Ph aria={t.heroImage} label={t.heroImage} color="#2B3D31" vt={`hero-${t.slug}`} />
+    <div class="hero-bar">
+      <a class="icon-btn glass-btn" href={u('/')} aria-label="Back"><Icon name="back" /></a>
       <SaveButton id={`town:${t.slug}`} kind="Town" title={t.name} href={`${base}/`} sub={t.region} />
     </div>
-  </Ph>
+    <div class="hero-panel glass">
+      <span class="eyebrow" style="--i:0">{t.region} · {t.district}</span>
+      <h1 class="hero-name" style="--i:1">{t.name}</h1>
+      <span class="hero-sub" style="--i:2"><Icon name="pin" size={15} />Ga coast · Filmed {t.filmedDate}</span>
+    </div>
+  </div>
 
-  <section class="pad stack" style="padding-top:22px;gap:10px">
-    <span class="muted" style="font-size:13px">{t.region} · {t.district} · Ga coast</span>
-    <h1 class="display">{t.name}</h1>
-    <p style="font-size:16px;line-height:1.5;color:var(--body)">{t.blurb}</p>
-    <WatchButton id="film" label={`Watch the film · ${t.filmDuration}`} title={`${t.name}: the film`} url={t.filmUrl} class="btn btn-primary" />
+  {b.shorts.length > 0 && (
+    <section class="section reveal" style="padding-top:16px">
+      <div class="thumbs">
+        {b.shorts.slice(0, 3).map((s) => (
+          <a class="thumb" href={`${base}/${s.link}`} aria-label={`${s.title}, ${s.duration}`}>
+            <Ph aria={s.thumbnail} color={s.color}><span class="dur glass">{s.duration}</span></Ph>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <div class="stats reveal" style="margin-top:14px" role="list">
+    <div class="stat" role="listitem"><i><Icon name="clock" size={18} /></i><span><b>{t.chapters.visit.fromAccraMin} min</b><small>from Accra</small></span></div>
+    <div class="stat" role="listitem"><i><Icon name="users" size={18} /></i><span><b>{b.people.length} people</b><small>interviewed</small></span></div>
+    <div class="stat" role="listitem"><i><Icon name="pin" size={18} /></i><span><b>{b.places.length} places</b><small>to visit</small></span></div>
+  </div>
+
+  <section class="section reveal">
+    <h2 class="h2">About {t.name}</h2>
+    <p class="body-copy">{t.blurb}</p>
   </section>
 
-  <nav class="tabs" aria-label="Chapters" id="tabs">
+  <nav class="tabs" aria-label="Chapters" id="tabs" style="--n:4">
+    <span class="ind" aria-hidden="true"></span>
     <a href="#origin" aria-current="true">Origin</a>
     <a href="#people">People</a>
     <a href="#texture">Texture</a>
@@ -38,38 +61,40 @@ const kindColor: Record<string, string> = { food: '#7A3B1D', festival: '#7A5A0E'
   </nav>
 
   <section id="origin" class="section">
-    <p class="label">Chapter 1 · Origin</p>
-    <a class="card card-link" href={`${base}/origin/`}>
+    <p class="label reveal">Chapter 1 · Origin</p>
+    <a class="card card-link reveal pressable" href={`${base}/origin/`}>
+      <span class="quote-mark" aria-hidden="true">“</span>
       <span class="card-title">How {t.name} began, as its elders tell it</span>
       <span class="body-copy">{t.chapters.origin.teaser}</span>
-      <span class="muted">Oral tradition · told by {t.chapters.origin.toldBy}</span>
-      <span style="font-size:14px;font-weight:600;color:var(--accent)">Read the full story →</span>
+      <span class="row-head" style="align-items:center">
+        <span class="muted">Oral tradition · told by {t.chapters.origin.toldBy}</span>
+        <span class="go-round" style="width:38px;height:38px;border-radius:50%;background:var(--ink);color:var(--gold);display:grid;place-items:center;flex:0 0 38px"><Icon name="arrow-ur" size={18} /></span>
+      </span>
     </a>
   </section>
 
   <section id="people" class="section">
-    <p class="label">Chapter 2 · People of {t.name}</p>
-    <div class="people-grid">
+    <div class="row-head reveal"><p class="label">Chapter 2 · People of {t.name}</p>{b.people.length > 3 && <a href={u('/browse/people/')}>All {b.people.length}</a>}</div>
+    <div class="people-grid reveal">
       {b.people.slice(0, 3).map((p) => (
         <a class="person-card" href={`${base}/people/${p.slug}/`}>
-          <Ph aria={`Portrait, ${p.role}`} color={p.color} />
+          <Ph aria={`Portrait, ${p.role}`} color={p.color} vt={`person-${p.slug}`} />
           <span class="person-name">{p.name}</span>
           <span class="person-role">{p.role}</span>
         </a>
       ))}
     </div>
-    {b.people.length > 3 && <a href={u(`/browse/people/`)} style="font-size:14px;font-weight:500">All {b.people.length} people →</a>}
   </section>
 
   <section id="texture" class="section">
-    <p class="label">Chapter 3 · Texture</p>
+    <p class="label reveal">Chapter 3 · Texture</p>
     <div class="list">
       {b.town.chapters.texture.map((x) => (
-        <div class="item">
+        <div class="item reveal">
           <Ph aria={x.title} color={x.color} />
           <div class="item-main">
             <span class="item-kind" style={`color:${kindColor[x.kind]}`}>{x.kind}</span>
-            <span style="font-size:15px;font-weight:600">{x.title}</span>
+            <span style="font-size:15.5px;font-weight:600">{x.title}</span>
             <span class="muted">{x.note}</span>
           </div>
         </div>
@@ -78,35 +103,55 @@ const kindColor: Record<string, string> = { food: '#7A3B1D', festival: '#7A5A0E'
   </section>
 
   <section id="visit" class="section">
-    <p class="label">Chapter 4 · Go see it</p>
-    <a class="dark-card card-link" style="text-decoration:none;color:#F6F4EE" href={`${base}/visit/`}>
-      <span style="font-family:var(--head);font-size:21px;font-weight:600">{b.places.length} places worth your day</span>
+    <p class="label reveal">Chapter 4 · Go see it</p>
+    <a class="dark-card card-link reveal pressable" style="color:#F6F4EE" href={`${base}/visit/`}>
+      <span class="row-head" style="align-items:center">
+        <span style="font-family:var(--head);font-size:22px;font-weight:600;letter-spacing:-0.3px">{b.places.length} places worth your day</span>
+        <span class="round-cta" style="width:44px;height:44px" aria-hidden="true"><Icon name="arrow-ur" size={18} /></span>
+      </span>
       <div class="stat-grid">
         <div><span>From Accra</span><span>{t.chapters.visit.fromAccraMin} min</span></div>
         <div><span>Day budget</span><span>{t.chapters.visit.dayBudget}</span></div>
         <div><span>Best time</span><span>{t.chapters.visit.bestTime}</span></div>
       </div>
-      <span style="font-size:14px;font-weight:600;color:var(--gold)">Plan your visit →</span>
+      <span style="font-size:13px;color:#B8B5AB">Checked in person · Last verified {t.lastVerified}</span>
     </a>
   </section>
 
-  <footer class="footer-note">
+  <footer class="footer-note reveal">
     <span class="muted">{t.credits} · {t.filmedDate}</span>
     <span class="muted">Interviews: {b.people.length} · Sources: {b.sources.length} · Last verified: {t.lastVerified}</span>
     <a href={`${base}/origin/#sources`} style="font-size:13px;font-weight:600">View sources and credits</a>
   </footer>
 
+  <Fragment slot="bar">
+    <button type="button" class="dock-share" data-share data-share-title={`${t.name} · Rediscover Ghana`} aria-label={`Share ${t.name}`}><Icon name="share" /></button>
+    <WatchButton id="film" label={`Watch the film · ${t.filmDuration}`} title={`${t.name}: the film`} url={t.filmUrl} class="btn dock-cta" fill="#171A16" />
+  </Fragment>
+
   <script>
-    // Highlight the chapter tab for the section in view.
-    const tabs = [...document.querySelectorAll<HTMLAnchorElement>('#tabs a')];
-    const secs = tabs.map((a) => document.querySelector(a.getAttribute('href')!)!);
-    const set = (i: number) => tabs.forEach((a, j) => (j === i ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+    // Chapter tabs: scroll-spy + sliding indicator
+    const nav = document.getElementById('tabs')!;
+    const ind = nav.querySelector<HTMLElement>('.ind')!;
+    const tabs = [...nav.querySelectorAll<HTMLAnchorElement>('a')];
+    const secs = tabs.map((a) => document.querySelector<HTMLElement>(a.getAttribute('href')!)!);
+    let cur = -1;
+    const set = (i: number) => {
+      if (i === cur) return;
+      cur = i;
+      tabs.forEach((a, j) => (j === i ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+      const a = tabs[i];
+      ind.style.setProperty('--x', `${a.offsetLeft - 4}px`);
+      ind.style.setProperty('--w', `${a.offsetWidth}px`);
+      ind.style.left = '4px';
+    };
     const onScroll = () => {
-      let cur = 0;
-      secs.forEach((s, i) => { if (s.getBoundingClientRect().top < 140) cur = i; });
-      set(cur);
+      let i = 0;
+      secs.forEach((s, j) => { if (s.getBoundingClientRect().top < 160) i = j; });
+      set(i);
     };
     addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', () => { const c = cur; cur = -1; set(c); });
     onScroll();
   </script>
 </Base>

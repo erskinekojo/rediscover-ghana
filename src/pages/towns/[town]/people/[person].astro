@@ -14,48 +14,87 @@ const { b, p } = Astro.props;
 const t = b.town;
 const more = b.people.filter((x) => x.slug !== p.slug);
 ---
-<Base title={`${p.name}, ${p.role}`} nav="discover">
-  <Ph aria={`Portrait, ${p.role}`} label={p.portrait} color={p.color} striped class="hero" style="height:420px">
-    <div class="hero-top" style="position:absolute;inset:20px 20px auto 20px">
-      <a class="icon-btn solid" href={u(`/towns/${t.slug}/#people`)} aria-label={`Back to ${t.name}`}><Icon name="back" /></a>
+<Base title={`${p.name}, ${p.role}`}>
+  <div class="t-hero p-hero parallax">
+    <Ph aria={`Portrait, ${p.role}`} label={p.portrait} color={p.color} vt={`person-${p.slug}`} />
+    <div class="hero-bar">
+      <a class="icon-btn glass-btn" href={u(`/towns/${t.slug}/#people`)} aria-label={`Back to ${t.name}`}><Icon name="back" /></a>
       <SaveButton id={`person:${t.slug}/${p.slug}`} kind="Person" title={`${p.name}, ${p.role}`} href={u(`/towns/${t.slug}/people/${p.slug}/`)} sub={t.name} />
     </div>
-  </Ph>
+    <div class="hero-panel glass">
+      <span class="eyebrow" style="--i:0">People of {t.name}</span>
+      <h1 class="hero-name" style="--i:1;font-size:40px">{p.name}</h1>
+      <span class="hero-sub" style="--i:2">{p.role} · {p.yearsLabel}</span>
+    </div>
+  </div>
 
-  <section class="pad stack" style="padding-top:22px;gap:10px">
-    <p class="label">People of {t.name}</p>
-    <h1 class="display" style="font-size:34px">{p.name}</h1>
-    <p style="font-size:15px;color:var(--body)">{p.role} · {p.yearsLabel}</p>
-    <blockquote class="pull" style="margin-top:8px">“{p.quote}”</blockquote>
-    <div style="margin-top:8px">
-      <WatchButton id="story" label={`Watch their story · ${p.shortDuration}`} title={`${p.name}, ${p.role}`} url={p.shortVideoUrl} class="btn btn-primary" />
+  <section class="section reveal" style="padding-top:28px">
+    <blockquote class="pull">“{p.quote}”</blockquote>
+  </section>
+
+  <section class="section reveal">
+    <div class="seg" role="tablist" aria-label="About this person" id="seg" style="--n:2">
+      <span class="ind" aria-hidden="true"></span>
+      <button type="button" role="tab" id="tab-day" aria-controls="panel-day" aria-selected="true">{p.dayTitle.startsWith('A day') ? 'A day' : 'Their day'}</button>
+      <button type="button" role="tab" id="tab-change" aria-controls="panel-change" aria-selected="false" tabindex="-1">What’s changing</button>
+    </div>
+    <div class="seg-panels" style="padding-top:10px">
+      <div role="tabpanel" id="panel-day" aria-labelledby="tab-day">
+        <h2 class="h2" style="margin-bottom:16px">{p.dayTitle}</h2>
+        <ol class="timeline">
+          {p.dayTimeline.map((s) => (
+            <li><span class="dot"></span><div><p class="tl-label">{s.label}</p><p class="body-copy">{s.text}</p></div></li>
+          ))}
+        </ol>
+      </div>
+      <div role="tabpanel" id="panel-change" aria-labelledby="tab-change" hidden>
+        <h2 class="h2" style="margin-bottom:12px">What’s changing</h2>
+        <p class="body-copy" style="font-size:16px">{p.whatsChanging}</p>
+      </div>
     </div>
   </section>
 
-  <section class="section">
-    <h2 class="h2">{p.dayTitle}</h2>
-    <ol class="timeline">
-      {p.dayTimeline.map((s) => (
-        <li><span class="dot"></span><div><p class="tl-label">{s.label}</p><p class="body-copy">{s.text}</p></div></li>
-      ))}
-    </ol>
-  </section>
-
-  <section class="section" style="padding-top:12px">
-    <h2 class="h2">What’s changing</h2>
-    <p class="body-copy" style="font-size:16px">{p.whatsChanging}</p>
-  </section>
-
-  <section class="section" style="padding-right:0;margin-bottom:28px">
-    <h2 class="h2">More people of {t.name}</h2>
-    <div class="hrow">
+  <section class="section" style="padding-right:0">
+    <div class="row-head reveal" style="padding-right:20px"><h2 class="h2">More people of {t.name}</h2></div>
+    <div class="hrow reveal">
       {more.map((m) => (
         <a class="person-card" href={u(`/towns/${t.slug}/people/${m.slug}/`)}>
-          <Ph aria={`Portrait, ${m.role}`} color={m.color} />
+          <Ph aria={`Portrait, ${m.role}`} color={m.color} vt={`person-${m.slug}`} />
           <span class="person-name">{m.name}</span>
           <span class="person-role">{m.role}</span>
         </a>
       ))}
     </div>
   </section>
+
+  <Fragment slot="bar">
+    <button type="button" class="dock-share" data-share data-share-title={`${p.role} · ${t.name}`} aria-label="Share this story"><Icon name="share" /></button>
+    <WatchButton id="story" label={`Watch their story · ${p.shortDuration}`} title={`${p.name}, ${p.role}`} url={p.shortVideoUrl} class="btn dock-cta" fill="#171A16" />
+  </Fragment>
+
+  <script>
+    const seg = document.getElementById('seg')!;
+    const ind = seg.querySelector<HTMLElement>('.ind')!;
+    const tabs = [...seg.querySelectorAll<HTMLButtonElement>('[role=tab]')];
+    const select = (i: number, focus = false) => {
+      tabs.forEach((t, j) => {
+        const on = i === j;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')!)!.hidden = !on;
+      });
+      ind.style.left = '4px';
+      ind.style.setProperty('--x', `${tabs[i].offsetLeft - 4}px`);
+      ind.style.setProperty('--w', `${tabs[i].offsetWidth}px`);
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => t.addEventListener('click', () => select(i)));
+    seg.addEventListener('keydown', (e) => {
+      const i = tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true');
+      if (e.key === 'ArrowRight') select((i + 1) % tabs.length, true);
+      if (e.key === 'ArrowLeft') select((i - 1 + tabs.length) % tabs.length, true);
+    });
+    select(0);
+    addEventListener('resize', () => select(tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true')));
+  </script>
 </Base>

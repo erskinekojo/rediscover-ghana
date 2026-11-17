@@ -1,5 +1,5 @@
 // Rediscover Ghana service worker: precache every page and its assets so towns work offline.
-const VERSION = 'rg-v1';
+const VERSION = 'rg-v2';
 const scope = new URL(self.registration.scope).pathname; // e.g. "/" or "/sub/"
 
 self.addEventListener('install', (event) => {

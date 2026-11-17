@@ -3,9 +3,16 @@ import '../styles/global.css';
 import BottomNav from '../components/BottomNav.astro';
 import { u } from '../lib/url';
 
-interface Props { title: string; description?: string; nav?: 'discover' | 'map' | 'saved' | 'contribute' | '' }
-const { title, description = 'Get to know Ghana, one town at a time. Documentary films, the stories of people, origin stories and verified visit guides.', nav = '' } = Astro.props;
+interface Props {
+  title: string;
+  description?: string;
+  nav?: 'discover' | 'map' | 'saved' | 'contribute' | '';
+  /** home page shows the first-visit splash */
+  home?: boolean;
+}
+const { title, description = 'Get to know Ghana, one town at a time. Documentary films, the stories of people, origin stories and verified visit guides.', nav = '', home = false } = Astro.props;
 const full = title === 'Rediscover Ghana' ? title : `${title} · Rediscover Ghana`;
+const hasBar = Astro.slots.has('bar');
 ---
 <!doctype html>
 <html lang="en">
@@ -14,7 +21,7 @@ const full = title === 'Rediscover Ghana' ? title : `${title} · Rediscover Ghan
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{full}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#1E5B3A" />
+    <meta name="theme-color" content="#F6F4EE" />
     <meta property="og:title" content={full} />
     <meta property="og:description" content={description} />
     <link rel="manifest" href={u('/manifest.webmanifest')} />
@@ -23,19 +30,38 @@ const full = title === 'Rediscover Ghana' ? title : `${title} · Rediscover Ghan
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <script is:inline define:vars={{ home }}>
+      document.documentElement.classList.add('js');
+      try {
+        if (home) { if (!localStorage.getItem('rg:welcomed')) document.documentElement.classList.add('first-visit'); }
+        else localStorage.setItem('rg:welcomed', '1');
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div class="app">
       <main class="page"><slot /></main>
-      <BottomNav active={nav} />
     </div>
+    {hasBar ? <div class="dock"><slot name="bar" /></div> : <BottomNav active={nav} />}
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
     <script is:inline define:vars={{ swUrl: u('/sw.js'), scope: u('/') }}>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => navigator.serviceWorker.register(swUrl, { scope }).catch(() => {}));
       }
     </script>
     <script>
-      // "Saved" lives in localStorage: no accounts or backend in Phase 0.
+      // ---- toast
+      const toastEl = document.getElementById('toast')!;
+      let tId = 0;
+      const toast = (msg: string) => {
+        toastEl.textContent = msg;
+        toastEl.classList.add('show');
+        clearTimeout(tId);
+        tId = window.setTimeout(() => toastEl.classList.remove('show'), 2200);
+      };
+
+      // ---- Saved (localStorage; no accounts in Phase 0)
       const KEY = 'rg:saved';
       type Item = { id: string; kind: string; title: string; href: string; sub: string };
       const read = (): Item[] => { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch { return []; } };
@@ -48,20 +74,51 @@ const full = title === 'Rediscover Ghana' ? title : `${title} · Rediscover Ghan
           b.setAttribute('aria-label', `${on ? 'Remove' : 'Save'} ${b.dataset.saveTitle}`);
         });
       };
-      document.addEventListener('click', (e) => {
-        const b = (e.target as Element).closest<HTMLButtonElement>('[data-save]');
-        if (!b) return;
-        e.preventDefault();
-        const list = read();
-        const id = b.dataset.saveId!;
-        const next = list.some((i) => i.id === id)
-          ? list.filter((i) => i.id !== id)
-          : [...list, { id, kind: b.dataset.saveKind!, title: b.dataset.saveTitle!, href: b.dataset.saveHref!, sub: b.dataset.saveSub || '' }];
-        write(next);
-        sync();
-        document.dispatchEvent(new CustomEvent('rg:saved-changed'));
+
+      document.addEventListener('click', async (e) => {
+        const t = e.target as Element;
+        const save = t.closest<HTMLButtonElement>('[data-save]');
+        if (save) {
+          e.preventDefault();
+          const list = read();
+          const id = save.dataset.saveId!;
+          const had = list.some((i) => i.id === id);
+          write(had ? list.filter((i) => i.id !== id) : [...list, { id, kind: save.dataset.saveKind!, title: save.dataset.saveTitle!, href: save.dataset.saveHref!, sub: save.dataset.saveSub || '' }]);
+          sync();
+          toast(had ? 'Removed from Saved' : 'Saved to this phone');
+          return;
+        }
+        const share = t.closest<HTMLElement>('[data-share]');
+        if (share) {
+          const data = { title: share.dataset.shareTitle || document.title, url: location.href };
+          try {
+            if (navigator.share) { await navigator.share(data); return; }
+          } catch (err) {
+            if ((err as DOMException).name === 'AbortError') return;
+          }
+          try { await navigator.clipboard.writeText(location.href); toast('Link copied'); } catch { toast(location.href); }
+        }
       });
       sync();
+
+      // ---- reveal on scroll (waits for the splash to close on a first visit)
+      const startReveal = () => {
+        const els = [...document.querySelectorAll<HTMLElement>('.reveal')];
+        if (!('IntersectionObserver' in window)) { els.forEach((el) => el.classList.add('in')); return; }
+        const io = new IntersectionObserver((entries) => {
+          let i = 0;
+          for (const en of entries) {
+            if (!en.isIntersecting) continue;
+            const el = en.target as HTMLElement;
+            el.style.setProperty('--d', `${i++ * 90}ms`);
+            el.classList.add('in');
+            io.unobserve(el);
+          }
+        }, { rootMargin: '0px 0px -6% 0px' });
+        els.forEach((el) => io.observe(el));
+      };
+      if (document.documentElement.classList.contains('first-visit')) document.addEventListener('rg:enter', startReveal, { once: true });
+      else startReveal();
     </script>
   </body>
 </html>

@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import Ph from '../components/Ph.astro';
+import Logo from '../components/Logo.astro';
 import { getBundles, filmedBundles, STATUS_LABEL } from '../lib/content';
 import { u } from '../lib/url';
 
@@ -17,59 +18,96 @@ const index = getBundles().flatMap((b) => [
   ...b.town.chapters.texture.map((x) => ({ title: x.title, kind: x.kind, href: u(`/towns/${b.town.slug}/#texture`), text: `${x.note} ${b.town.name}` })),
   ...b.places.map((p) => ({ title: p.name, kind: 'Place', href: u(`/towns/${b.town.slug}/visit/`), text: b.town.name })),
 ]);
-const chips = [['towns', 'Towns'], ['people', 'People'], ['food', 'Food'], ['festivals', 'Festivals'], ['places', 'Places to go']];
+const chips: [string, string, string][] = [
+  ['towns', 'Towns', '#2B3D31'], ['people', 'People', '#4A3A27'], ['food', 'Food', '#7A3B1D'], ['festivals', 'Festivals', '#8A6A16'], ['places', 'Places to go', '#1D3F6E'],
+];
 ---
-<Base title="Rediscover Ghana" nav="discover">
-  <header class="topbar">
-    <a class="brand" href={u('/')}>
-      <span class="brand-mark"><Icon name="pin" size={16} stroke="#E0A526" width={2.2} /></span>
-      <span class="brand-name">Rediscover Ghana</span>
-    </a>
-    <a class="icon-btn" href={u('/saved/')} aria-label="Saved stories"><Icon name="user" /></a>
+<Base title="Rediscover Ghana" nav="discover" home>
+  <!-- First-visit welcome. Hidden for returning visitors before first paint. -->
+  <div class="splash" id="splash" role="dialog" aria-modal="true" aria-labelledby="splash-title">
+    <Ph aria="Film still of the Teshie coast at dawn" label="Film still · The coast at dawn" color="#24372B" />
+    <div class="splash-top"><Logo tone="light" link={false} /></div>
+    <div class="splash-content">
+      <span class="status glass" style="--i:0;align-self:flex-start"><i></i>New film · {t.name}</span>
+      <h1 id="splash-title" style="--i:1">Get to know Ghana, one town at a time.</h1>
+      <p style="--i:2">Short films, the people who keep each town alive, and how it began, told by those who live there.</p>
+      <button class="swipe" id="enter" type="button" style="--i:3">
+        <span class="knob"><Icon name="arrow-r" size={22} /></span>
+        <span class="swipe-text">Start exploring</span>
+        <span class="chev"><Icon name="chevrons" size={20} /></span>
+      </button>
+    </div>
+  </div>
+
+  <header class="topbar reveal">
+    <Logo />
+    <a class="icon-btn" href={u('/saved/')} aria-label="Saved"><Icon name="bookmark" /></a>
   </header>
 
-  <section class="pad stack" style="gap:16px;padding-top:12px">
-    <h1 class="title">Get to know Ghana, one town at a time.</h1>
-    <label class="search">
-      <Icon name="search" size={18} stroke="#5B5F57" />
-      <span class="sr-only">Search</span>
-      <input type="search" id="q" placeholder="Search towns, people, food, festivals" autocomplete="off" />
-    </label>
+  <section class="pad hello reveal">
+    <p class="greet" id="greet">Welcome</p>
+    <h1 class="title">Get to know Ghana,<br />one town at a time.</h1>
+  </section>
+
+  <section class="pad reveal" style="padding-top:20px">
+    <div class="search-row">
+      <label class="search">
+        <span class="loc"><Icon name="pin" size={16} stroke="#1E5B3A" />Ga coast</span>
+        <span class="divider" aria-hidden="true"></span>
+        <span class="sr-only">Search</span>
+        <input type="search" id="q" placeholder="Search" aria-label="Search towns, people, food and places" autocomplete="off" />
+        <span class="s-ico" aria-hidden="true"><Icon name="search" size={17} stroke="#F6F4EE" /></span>
+      </label>
+      <a class="icon-btn" style="width:54px;height:54px;flex-basis:54px" href={u('/browse/towns/')} aria-label="Browse everything"><Icon name="sliders" /></a>
+    </div>
     <div id="results" class="results" hidden aria-live="polite"></div>
   </section>
 
-  <nav class="pad" aria-label="Browse by" style="padding-top:16px">
-    <div class="chips">
-      {chips.map(([slug, label], i) => <a class:list={['chip', i === 0 && 'on']} href={u(`/browse/${slug}/`)}>{label}</a>)}
+  <nav aria-label="Browse by" class="reveal" style="padding-top:16px">
+    <div class="chip-row">
+      {chips.map(([slug, label, c]) => (
+        <a class="chip" style="padding-left:16px" href={u(`/browse/${slug}/`)}>
+          <span class="chip-thumb" style={`background-color:${c};margin-left:-10px`} aria-hidden="true"></span>{label}
+        </a>
+      ))}
     </div>
   </nav>
 
-  <section class="section" style="padding-top:24px">
-    <p class="label">New film</p>
-    <a class="featured" href={u(`/towns/${t.slug}/`)}>
-      <Ph aria={`${t.heroImage}`} label="Photo · Canoes at sunrise" striped color="#2B3D31">
-        <span style="display:flex;align-items:center;gap:10px;margin-top:auto">
-          <span class="play"><Icon name="play" size={18} fill="#171A16" stroke="none" /></span>
-          <span style="font-size:14px;font-weight:500">Watch the film · {t.filmDuration}</span>
-        </span>
-      </Ph>
-      <div class="featured-body">
-        <span style="font-size:13px;color:#C9D3C9">{t.region} · Ga coast</span>
-        <span style="font-family:var(--head);font-size:28px;font-weight:700;letter-spacing:-0.4px">{t.name}</span>
-        <span style="font-size:15px;line-height:1.45;color:#E8E6DE">Fishing canoes, fantasy coffins and Homowo by the sea. Meet the people who keep this coastal town alive.</span>
+  <section class="section" style="padding-top:26px">
+    <div class="row-head reveal"><h2 class="h2">New film</h2><a href={u('/map/')}>All towns</a></div>
+    <a class="feature reveal" href={u(`/towns/${t.slug}/`)} aria-label={`${t.name}: open the town page`}>
+      <Ph aria={t.heroImage} label="Photo · Canoes at sunrise" color="#2B3D31" vt={`hero-${t.slug}`} />
+      <div class="feature-top">
+        <span class="status glass"><i></i>{STATUS_LABEL[t.status]}</span>
+        <span class="round-cta" aria-hidden="true"><Icon name="arrow-ur" size={22} width={2.2} /></span>
+      </div>
+      <div class="feature-panel glass">
+        <span class="eyebrow">{t.region} · Ga coast</span>
+        <span class="feature-name">{t.name}</span>
+        <span class="feature-copy">Fishing canoes, fantasy coffins and Homowo by the sea. Meet the people who keep this coastal town alive.</span>
+        <div class="feature-foot">
+          <span class="mini-thumbs">
+            {featured.people.slice(0, 3).map((p) => <span style={`background-color:${p.color}`}></span>)}
+            <em>{featured.people.length} voices</em>
+          </span>
+          <span class="feature-meta"><span class="play-dot"><Icon name="play" size={12} fill="#171A16" stroke="none" /></span>Film · {t.filmDuration}</span>
+        </div>
       </div>
     </a>
   </section>
 
   <section class="section" style="padding-right:0">
-    <div class="row-head" style="padding-right:20px">
+    <div class="row-head reveal" style="padding-right:20px">
       <h2 class="h2">Short stories</h2>
       <a href={u(`/browse/people/`)}>See all</a>
     </div>
-    <div class="hrow">
+    <div class="hrow reveal">
       {shorts.map((s) => (
         <a class="short" href={u(`/towns/${s.townSlug}/${s.link}`)}>
-          <Ph aria={s.thumbnail} color={s.color}><span class="dur">{s.duration}</span></Ph>
+          <Ph aria={s.thumbnail} color={s.color}>
+            <span class="short-play glass"><Icon name="play" size={14} fill="#fff" stroke="none" /></span>
+            <span class="dur glass">{s.duration}</span>
+          </Ph>
           <span class="short-title">{s.title}</span>
         </a>
       ))}
@@ -77,34 +115,60 @@ const chips = [['towns', 'Towns'], ['people', 'People'], ['food', 'Food'], ['fes
   </section>
 
   <section class="section">
-    <div class="row-head">
+    <div class="row-head reveal">
       <h2 class="h2">Next on the coast</h2>
       <a href={u('/map/')}>Map</a>
     </div>
     <div class="list">
       {next.map((b) => (
-        <a class="item" href={u(`/map/?town=${b.town.slug}`)}>
+        <a class="item reveal" href={u(`/map/?town=${b.town.slug}`)}>
           <Ph aria={b.town.name} color="#2E3B31" />
           <span class="item-main">
             <span class="item-title">{b.town.name}</span>
-            <span class="muted">{b.town.region}</span>
+            <span><span class:list={['badge', b.town.status]}>{STATUS_LABEL[b.town.status]}</span></span>
           </span>
-          <span class:list={['badge', b.town.status]}>{STATUS_LABEL[b.town.status]}</span>
+          <span class="go" aria-hidden="true"><Icon name="arrow-r" size={16} /></span>
         </a>
       ))}
     </div>
   </section>
 
-  <section class="pad" style="margin-top:28px;margin-bottom:28px">
-    <div class="dark-card" style="gap:10px">
-      <span style="font-family:var(--head);font-size:19px;font-weight:600">Know a story from your town?</span>
-      <span style="font-size:14px;line-height:1.45;color:#D6D3C9">Suggest a town, an elder to interview, or a place we should visit.</span>
-      <a class="btn btn-gold" style="align-self:flex-start;color:#171A16" href={u('/contribute/')}>Suggest a story</a>
+  <section class="pad reveal" style="margin-top:32px">
+    <div class="dark-card">
+      <span class="quote-mark" aria-hidden="true">“</span>
+      <span style="font-family:var(--head);font-size:22px;font-weight:600;letter-spacing:-0.3px">Know a story from your town?</span>
+      <span style="font-size:14.5px;line-height:1.5;color:#D6D3C9">Suggest a town, an elder to interview, or a place we should visit.</span>
+      <a class="btn btn-gold" style="align-self:flex-start;color:#171A16" href={u('/contribute/')}>Suggest a story <Icon name="arrow-r" size={18} /></a>
     </div>
   </section>
 
   <script is:inline type="application/json" id="search-index" set:html={JSON.stringify(index)} />
   <script>
+    // Greeting by time of day
+    const h = new Date().getHours();
+    document.getElementById('greet')!.textContent = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+
+    // Splash: slide the knob, then fade the screen away
+    const splash = document.getElementById('splash')!;
+    const enter = document.getElementById('enter') as HTMLButtonElement;
+    const root = document.documentElement;
+    const close = () => {
+      try { localStorage.setItem('rg:welcomed', '1'); } catch {}
+      const knob = enter.querySelector<HTMLElement>('.knob')!;
+      knob.style.transform = `translateX(${enter.clientWidth - knob.offsetWidth - 12}px)`;
+      setTimeout(() => {
+        splash.classList.add('leaving');
+        document.dispatchEvent(new Event('rg:enter'));
+        setTimeout(() => { root.classList.remove('first-visit'); splash.remove(); }, 700);
+      }, 420);
+    };
+    if (root.classList.contains('first-visit')) {
+      enter.addEventListener('click', close, { once: true });
+      splash.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+      enter.focus({ preventScroll: true });
+    } else splash.remove();
+
+    // Search
     const q = document.getElementById('q') as HTMLInputElement;
     const out = document.getElementById('results')!;
     const idx: { title: string; kind: string; href: string; text: string }[] = JSON.parse(document.getElementById('search-index')!.textContent || '[]');
@@ -115,7 +179,7 @@ const chips = [['towns', 'Towns'], ['people', 'People'], ['food', 'Food'], ['fes
       const hits = idx.filter((i) => (i.title + ' ' + i.kind + ' ' + i.text).toLowerCase().includes(v)).slice(0, 8);
       out.hidden = false;
       out.innerHTML = hits.length
-        ? hits.map((h) => `<a class="result" href="${esc(h.href)}"><span>${esc(h.title)}</span><span class="muted">${esc(h.kind)}</span></a>`).join('')
+        ? hits.map((h, i) => `<a class="result" style="animation-delay:${i * 40}ms" href="${esc(h.href)}"><span>${esc(h.title)}</span><span class="muted">${esc(h.kind)}</span></a>`).join('')
         : '<p class="muted">Nothing yet. Know something about this? Tell us on the Contribute tab.</p>';
     });
   </script>

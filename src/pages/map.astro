@@ -24,7 +24,7 @@ for (let i = 1; i < pts.length; i++) {
 const sea = `${d} L${W},${H} L0,${H} Z`;
 ---
 <Base title="Map" nav="map">
-  <section class="section" style="padding-top:24px">
+  <section class="section reveal" style="padding-top:24px">
     <p class="label">The Ga coast</p>
     <h1 class="title">{filmedCount} of {towns.length} filmed</h1>
   </section>
@@ -37,9 +37,9 @@ const sea = `${d} L${W},${H} L0,${H} Z`;
       <text x="190" y="285" font-size="9" letter-spacing="3" fill="#6C8A96" text-anchor="middle" font-family="Inter, sans-serif">GULF OF GUINEA</text>
       <text x="40" y="60" font-size="9" letter-spacing="3" fill="#A9A595" font-family="Inter, sans-serif">GREATER ACCRA</text>
     </svg>
-    {towns.map((t) => (
-      <button type="button" class:list={['pin', t.x > 290 && 'left']} data-town={t.slug} aria-pressed="false" aria-label={`${t.name}, ${STATUS_LABEL[t.status]}`}
-        style={`left:${(t.x / W) * 100}%;top:${(t.y / H) * 100}%`}>
+    {towns.map((t, i) => (
+      <button type="button" class:list={['pin', t.status, t.x > 290 && 'left']} data-town={t.slug} aria-pressed="false" aria-label={`${t.name}, ${STATUS_LABEL[t.status]}`}
+        style={`left:${(t.x / W) * 100}%;top:${(t.y / H) * 100}%;--i:${i}`}>
         <span class="dot-pin" style={`background:${colors[t.status]}`}></span>
         <span class="pin-label">{t.name.replace(' (Labadi)', '')}</span>
       </button>

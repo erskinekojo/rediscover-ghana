@@ -1,9 +1,12 @@
 ---
-// Clearly labelled placeholder for photos and video until real stills are supplied.
-interface Props { label?: string; aria: string; color?: string; class?: string; style?: string; striped?: boolean }
-const { label, aria, color = '#2b3d31', class: cls = '', style = '', striped = false } = Astro.props;
+// Labelled photo/video placeholder until real stills are supplied.
+// `vt` gives it a view-transition name so it morphs between pages (e.g. card -> hero).
+interface Props { label?: string; aria: string; color?: string; class?: string; style?: string; vt?: string }
+const { label, aria, color = '#2b3d31', class: cls = '', style = '', vt } = Astro.props;
+const st = `--c:${color};${vt ? `view-transition-name:${vt};` : ''}${style}`;
 ---
-<div role="img" aria-label={`Placeholder: ${aria}`} class:list={['ph', striped && 'striped', cls]} style={`background-color:${color};${style}`}>
+<div role="img" aria-label={`Placeholder: ${aria}`} class:list={['ph', cls]} style={st}>
+  <span class="ph-media" aria-hidden="true"></span>
   {label && <span class="ph-label">{label}</span>}
   <slot />
 </div>

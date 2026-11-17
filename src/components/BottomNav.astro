@@ -10,8 +10,10 @@ const items = [
   { key: 'contribute', label: 'Contribute', href: u('/contribute/'), icon: 'flag' },
 ];
 ---
-<nav class="bottom-nav" aria-label="Main">
+<nav class="dock" aria-label="Main">
   {items.map((i) => (
-    <a href={i.href} aria-current={active === i.key ? 'page' : undefined}><Icon name={i.icon} size={22} />{i.label}</a>
+    <a class="dock-item" href={i.href} aria-current={active === i.key ? 'page' : undefined} aria-label={i.label}>
+      <Icon name={i.icon} size={22} /><span class="dock-label">{i.label}</span>
+    </a>
   ))}
 </nav>

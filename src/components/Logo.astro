@@ -1,0 +1,12 @@
+---
+// The one place the logo lives. When the final logo arrives, swap the mark (and wordmark if needed) here.
+import Icon from './Icon.astro';
+import { u } from '../lib/url';
+interface Props { tone?: 'dark' | 'light'; link?: boolean }
+const { tone = 'dark', link = true } = Astro.props;
+const Tag = link ? 'a' : 'span';
+---
+<Tag class:list={['logo', tone === 'light' && 'light']} href={link ? u('/') : undefined} aria-label={link ? 'Rediscover Ghana, home' : undefined}>
+  <span class="logo-mark"><Icon name="pin" size={18} stroke="#E0A526" width={2.2} /></span>
+  <span class="logo-word">Rediscover Ghana</span>
+</Tag>
