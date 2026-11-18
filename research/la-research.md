@@ -42,7 +42,7 @@
 
 ### The beach
 - **La Pleasure Beach** is the best-known beach in Accra. Visitors pay an **entrance fee** (one visitor reported about GH₵20 on a weekday morning) and it is **very crowded at weekends and on holidays** [4][5]. **Low** on prices.
-- One site said structures behind the beach were demolished and vendors ordered out in **October 2026** [4]. **Unverified (single source).** *Check current local news before publishing anything about the beach.*
+- **Update: this is now confirmed.** Structures at La Pleasure Beach were demolished on **2 October 2026**, and the land and redevelopment are now disputed between SSNIT (which owns the neighbouring hotels), the La Traditional Council, the MP and traders. See [present-and-future.md](present-and-future.md), section C, for the full account with sources. It is a live, sensitive story, so check for updates the week you record.
 - The beach is also described as a site for **traditional celebrations**, not only leisure [5].
 
 ### Food, craft, fishing
