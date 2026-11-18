@@ -29,11 +29,16 @@ Every subchapter also ends with a **"Say it" beat** (10–20 seconds): one phras
 
 ## PART 1: The coast (~15 min)
 
-**Ep 1: Six towns, one coast (~10 min)**
-- 1.1 The six old Ga towns (Ga Mashie, Osu, La, Teshie, Nungua, Tema): each its own stool
+**Ep 1: The Ga-Dangme world, in seven clusters (~10 min)**
+*Map and sources: [../research/ga-dangme-clusters.md](../research/ga-dangme-clusters.md).*
+- 1.1 Ga and Dangme: two languages, one family of peoples
 - 1.2 Where the people say they came from (oral tradition vs written record)
-- 1.3 Three doors into one story: Teshie, La, Nungua *(from the three town films)*
-- 1.4 Who speaks Ga here today, and what else is spoken (Ga, Twi, English)
+- 1.3 **The clusters:** (1) Ga Mashie + Osu · (2) La, Teshie, Nungua · (3) Tema + Kpone · (4) Prampram + Ningo · (5) Ada · (6) Shai, Osudoku, Krobo · (7) the Ga hinterland
+- 1.4 Three doors into one story: Teshie, La, Nungua *(from the three town films)*
+- 1.5 Who speaks Ga here today, and what else is spoken (Ga, Twi, English)
+
+> **Cluster rule for Parts 2 to 4:** every topic's "town by town" beat names the cluster, not just the town. Dangme neighbours appear as contrast, e.g. coming of age (Krobo Dipo) in Ep 4.
+> **Check before use:** the "Nungua first, Teshie last" relay is a simplification; see section 4 of the clusters file.
 
 **Ep 2: The sea (~5 min, shared with Part 6)**
 - 2.1 Why this coast faces the water
