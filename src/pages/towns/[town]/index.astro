@@ -50,6 +50,7 @@ const kindColor: Record<string, string> = { food: '#7A3B1D', festival: '#7A5A0E'
   <section class="section reveal">
     <h2 class="h2">About {t.name}</h2>
     <p class="body-copy">{t.blurb}</p>
+    {t.draftNote && <p class="notice">{t.draftNote}</p>}
   </section>
 
   <nav class="tabs" aria-label="Chapters" id="tabs" style="--n:4">

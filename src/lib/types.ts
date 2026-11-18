@@ -28,6 +28,8 @@ export interface Town {
     visit: { fromAccraMin: string; dayBudget: string; bestTime: string };
   };
   credits: string;
+  /** shown as a visible banner while content is drawn from published sources, before interviews */
+  draftNote?: string;
 }
 
 export interface Person {

@@ -22,6 +22,7 @@ const t = b.town;
     <p class="label">{t.name} · Chapter 4</p>
     <h1 class="title">Go see it</h1>
     <p class="verified"><Icon name="check" size={16} stroke="#1E5B3A" />Everything on this page was checked in person · Last verified {t.lastVerified}</p>
+    {t.draftNote && <p class="notice">Research draft: these places and tips come from published sources. We'll check routes, prices and opening times in person during filming.</p>}
   </section>
 
   <div class="stats reveal" style="margin-top:18px">

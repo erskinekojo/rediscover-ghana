@@ -1,4 +1,7 @@
 {
-  "nameCard": { "ga": "[Ga spelling]", "meaning": "[Meaning of the name in Ga, confirmed with the palace linguist.]" },
-  "writtenRecord": "[Short summary from published history or archives, with the source cited below.]"
+  "nameCard": {
+    "ga": "Te + shie (spelling to confirm)",
+    "meaning": "One published explanation: te means stone and shie means under, so “under the stone”. A local story says travellers named the town after the people who lived beneath a cave. Another says it took its founder's name. To be confirmed with the palace linguist."
+  },
+  "writtenRecord": "The Danes built Fort Augustaborg here in 1787, the last European fort on the Gold Coast. Britain bought it in 1850 and held it until independence in 1957; today it stands in ruins. The 1941 Gold Coast Chief List records 33 villages under Teshie, and a 1966 study counts 24 farming villages behind the town. Teshie warriors are credited with bravery at the Battle of Katamanso in 1826. In 2011 a National House of Chiefs committee found that Teshie, like Osu, La, Nungua and Tema, owes no allegiance to the Ga Paramount Stool."
 }

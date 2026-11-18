@@ -1,5 +1,10 @@
 [
-  { "townSlug": "teshie", "n": 1, "citation": "Interview: [Elder's name], Teshie, [date]. With permission of the Teshie traditional council." },
-  { "townSlug": "teshie", "n": 2, "citation": "Interview: [Name], Teshie, [date]." },
-  { "townSlug": "teshie", "n": 3, "citation": "[Author, title, publisher, year], or archive reference." }
+  { "townSlug": "teshie", "n": 1, "citation": "Wikipedia, “Teshie”. en.wikipedia.org/wiki/Teshie" },
+  { "townSlug": "teshie", "n": 2, "citation": "S. K. Boadu, “Oral vs Written History: The Teshie Case Study”, Accra Street Journal, 12 April 2026. Draws on the Numo Nmashie family tradition, the 1941 Gold Coast Chief List and D.A.E. Gilbert (1966)." },
+  { "townSlug": "teshie", "n": 3, "citation": "S. K. Boadu, “How Teshie Was Formed: Migration, War & the Founding of a Ga Warrior State”, Accra Street Journal, 12 April 2026." },
+  { "townSlug": "teshie", "n": 4, "citation": "Wikipedia, “Fort Augustaborg”, and ghana-net.com, “Fort Augustaborg, Teshie”." },
+  { "townSlug": "teshie", "n": 5, "citation": "Wikipedia, “Kane Kwei Carpentry Workshop” and “Fantasy coffin” (citing Regula Tschumi's research)." },
+  { "townSlug": "teshie", "n": 6, "citation": "Wikipedia, “Homowo”; Graphic Online and MyJoyOnline reporting on Teshie Homowo, 2025–2026." },
+  { "townSlug": "teshie", "n": 7, "citation": "Interview: [Elder's name], Teshie, [date]. With permission of the Teshie Traditional Council. (To be recorded.)" },
+  { "townSlug": "teshie", "n": 8, "citation": "Interview: [Name], Teshie, [date]. (To be recorded.)" }
 ]

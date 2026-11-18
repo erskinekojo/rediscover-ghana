@@ -1,14 +1,19 @@
 [
   {
     "townSlug": "teshie", "type": "oral", "isPrimary": true,
-    "toldBy": "[Elder's name]", "role": "[role]", "recordedDate": "[date]",
-    "text": "[The founding account, written in plain English from the interview: who the first settlers were, where they came from, why they chose this stretch of coast, and how the town grew.]",
-    "quote": "[A line from the elder that carries the heart of the story.]",
+    "toldBy": "the Numo Nmashie family", "role": "as published by the Accra Street Journal [2]", "recordedDate": "published April 2026 · not yet recorded by us",
+    "text": "The Ga arrived on this coast as two groups who had travelled together: one from Ile-Ife in present-day Nigeria, one from the region of the present-day Congo. At La, the leader of the first, Odoi Atsem, became Mantse (chief), and the leader of the second, Numo Nmashie, became Mankralo, his second-in-command. Around 1710 a feud between them threatened civil war. Rather than fight, Nmashie moved east, bought land from the Nungua Mantse, Afote Okley, and founded Teshie. He did not make himself chief. He appointed Nii Trebi, kept the role of Mankralo, and set up the town's first quarters, Krobo, Agbawe and Klemusum, entrusting the Lakpa deity to Klemusum. Settlers soon came from La, Nungua, Tema, Accra and Prampram. The town is still remembered in a Ga accolade, “Gonti ni ashiii see anmoo kpo”, recalling a time when the whole Ga State fought under the Teshie Mantse (translation to be confirmed with an elder).",
+    "quote": "[A line from the elder that carries the heart of the story. To be recorded.]",
     "quoteGa": "[…]"
   },
   {
+    "townSlug": "teshie", "type": "written", "isPrimary": false,
+    "toldBy": "Wendell Adjetey", "role": "historian, descended from Teshie's founders (quoted in [2])", "recordedDate": "published 2026",
+    "text": "Adjetey places the founding earlier, in the late 1600s, and describes Teshie as a garrison town, settled after civil conflict broke out in neighbouring La. Both dates are shown here; we don't pick a winner."
+  },
+  {
     "townSlug": "teshie", "type": "oral", "isPrimary": false,
-    "toldBy": "[Name]", "role": "[family or quarter]", "recordedDate": "[date]",
-    "text": "[Where this version differs, and what it adds. Both accounts are shown; we don't pick a winner.]"
+    "toldBy": "[Name]", "role": "[another family or quarter]", "recordedDate": "[date]",
+    "text": "[A second version, recorded in Teshie. For example, a district profile lists seven quarters, including Leshie, from which the Mantse comes. How did the others join?]"
   }
 ]

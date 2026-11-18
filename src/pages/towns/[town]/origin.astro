@@ -12,7 +12,9 @@ export function getStaticPaths() {
 const { b } = Astro.props;
 const t = b.town;
 const primary = b.accounts.find((a) => a.isPrimary && a.type === 'oral');
-const others = b.accounts.filter((a) => !a.isPrimary && a.type === 'oral');
+const others = b.accounts.filter((a) => !a.isPrimary);
+// "published …" dates read as-is; anything else is a recording date.
+const when = (d: string) => (d.startsWith('published') ? d : `recorded ${d}`);
 ---
 <Base title={`How ${t.name} began`}>
   <header class="topbar reveal">
@@ -22,6 +24,7 @@ const others = b.accounts.filter((a) => !a.isPrimary && a.type === 'oral');
   <section class="section reveal" style="padding-top:10px">
     <p class="label">{t.name} · Chapter 1</p>
     <h1 class="title">How {t.name} began</h1>
+    {t.draftNote && <p class="notice">{t.draftNote}</p>}
   </section>
 
   <section class="section reveal" style="padding-top:18px">
@@ -41,7 +44,7 @@ const others = b.accounts.filter((a) => !a.isPrimary && a.type === 'oral');
   {primary && (
     <section class="section reveal" style="padding-top:28px">
       <span class="badge oral" style="align-self:flex-start">Oral tradition</span>
-      <p class="muted">As told by {primary.toldBy}, {primary.role} · recorded {primary.recordedDate}</p>
+      <p class="muted">As told by {primary.toldBy}, {primary.role} · {when(primary.recordedDate)}</p>
       <p style="font-size:16.5px;line-height:1.65;color:var(--body)">{primary.text}</p>
       {primary.quote && <blockquote class="pull" style="margin-top:8px">“{primary.quote}”</blockquote>}
       {primary.quoteGa && <p class="ga-quote">Original in Ga: “{primary.quoteGa}”</p>}
@@ -52,8 +55,8 @@ const others = b.accounts.filter((a) => !a.isPrimary && a.type === 'oral');
     <section class="section reveal" style="padding-top:28px">
       <div class="card">
         <h2 class="h2">Another account</h2>
-        <span class="badge oral" style="align-self:flex-start">Oral tradition</span>
-        <p class="muted">As told by {a.toldBy}, {a.role} · recorded {a.recordedDate}</p>
+        <span class:list={['badge', a.type]} style="align-self:flex-start">{a.type === 'oral' ? 'Oral tradition' : 'Written history'}</span>
+        <p class="muted">{a.type === 'oral' ? 'As told by' : 'From'} {a.toldBy}, {a.role} · {when(a.recordedDate)}</p>
         <p class="body-copy" style="font-size:16px">{a.text}</p>
       </div>
     </section>

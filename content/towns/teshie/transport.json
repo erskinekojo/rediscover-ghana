@@ -1,5 +1,5 @@
 [
-  { "townSlug": "teshie", "mode": "Trotro", "note": "From [station], ask for [stop]", "priceGhs": "GH₵ [—]" },
+  { "townSlug": "teshie", "mode": "Trotro", "note": "From Circle (Odawna), take a Nungua-bound trotro and ask for [Teshie stop]. Teshie-Nungua trotros also run from Achimota and Abeka Lapaz.", "priceGhs": "GH₵ [—]" },
   { "townSlug": "teshie", "mode": "Bolt / Uber", "note": "[35–50] min, depending on traffic", "priceGhs": "GH₵ [—]" },
-  { "townSlug": "teshie", "mode": "Driving", "note": "Parking: [where]", "priceGhs": "Fuel only" }
+  { "townSlug": "teshie", "mode": "Driving", "note": "Along the Teshie Road from the Kpeshie Lagoon. Parking: [where]", "priceGhs": "Fuel only" }
 ]
