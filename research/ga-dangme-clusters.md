@@ -22,7 +22,7 @@
 - **Osu** is the town of **Christiansborg Castle**; Danish, Dutch and English forts shaped Osu and Accra (Christiansborg 1661, Fort James 1672–73). [9] Medium–High (see [la-research.md](la-research.md)).
 - **Contested:** the Ga Mashie throne is disputed in the courts; the Supreme Court affirmed King Tackie Teiko Tsuru II in July 2025. [10] *Not for the film unless interviewees raise it; every party's voice if so.*
 - **Homowo:** sources say Homowo has its **climax in Ga Mashie**, which marks it a little earlier than La. [11]
-- **To research:** Ga Mashie's quarters and **seven or more sub-towns**, Osu's festivals (Osu has its own Homowo), Jamestown lighthouse, boxing, fishing, and Chale Wote. *(Not yet researched.)*
+- **Researched:** see [cluster-1-ga-mashie-osu.md](cluster-1-ga-mashie-osu.md) (seven quarters, forts, Homowo sequence, Twin Festival, Osu Castle, disputed stools).
 
 ### Cluster 2: The eastern shore. La, Teshie and Nungua
 **Where:** the coast east of Osu, in sequence La → Teshie → Nungua. **Why group them:** kinship and land are tangled together.
