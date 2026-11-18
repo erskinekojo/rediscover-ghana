@@ -40,7 +40,7 @@ Homowo · kpokpoi · Kplejoo / Kpledzoo · Nshɔbulemɔ · Mantse · Mankralo ·
 
 ## The thread between the three films
 - **Teshie** left **La**, by Teshie's family tradition (c. 1710), and bought land from **Nungua's** chief. The three towns are one story told from three doors.
-- **Homowo runs on a relay:** Nungua begins, La and others follow, **Teshie is last.** Use this as the end of each film, pointing to the next town.
+- **Homowo runs on a relay:** Nungua begins, La and others follow, **Teshie is last.** Use this as the end of each film, pointing to the next town. ⚠️ **Treat as a simplification until the councils confirm:** other sources say Homowo peaks in Ga Mashie and that each town sets its own dates (see [../research/ga-dangme-clusters.md](../research/ga-dangme-clusters.md), section 4).
 - The same sea is eating all three shorelines.
 - The **Lakpa** deity appears in both Teshie and La. Ask elders in both towns how that connects.
 
